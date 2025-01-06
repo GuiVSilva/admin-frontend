@@ -52,7 +52,7 @@ const OrdersCharts = () => {
               itemStyle={{ color: '#E5E7EB' }}
             />
             <Legend />
-            <Bar dataKey={'value'} fill="#8884d8">
+            <Bar dataKey={'value'} name="2025" fill="#8884d8">
               {SALES_CHANNEL_DATA.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
