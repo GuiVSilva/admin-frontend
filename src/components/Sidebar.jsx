@@ -95,6 +95,16 @@ const Sidebar = () => {
     }
   }
 
+  const handleMenuToggle = () => {
+    setIsSideBarOpen(prev => {
+      const newState = !prev
+      if (!newState) {
+        setActiveItem(null) // Fecha o submenu ao fechar o menu
+      }
+      return newState
+    })
+  }
+
   return (
     <motion.div
       className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 ${
@@ -106,7 +116,7 @@ const Sidebar = () => {
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => setIsSideBarOpen(!isSideBarOpen)}
+          onClick={handleMenuToggle}
           className="p-2 rounded-full hover:bg-gray-700 transition-colors max-w-fit"
         >
           <Menu size={24} />
