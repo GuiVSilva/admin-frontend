@@ -1,144 +1,107 @@
 import {
-  Input,
-  Option,
-  Select,
-  Button,
-  Dialog,
-  Textarea,
   IconButton,
   Typography,
+  Dialog,
   DialogBody,
   DialogHeader,
   DialogFooter
 } from '@material-tailwind/react'
 import { X } from 'lucide-react'
+import { Input } from '../../../components/Input '
+// import { Select } from '../../../components/Select'
+import { TextArea } from '../../../components/TextArea'
+import { Button } from '../../../components/Button'
 
 export const DialogAddProducts = ({ open, handleCloseDialog }) => {
   return (
-    <>
-      <Dialog size="sm" open={open} className="p-4">
-        <DialogHeader className="relative m-0 block">
-          <Typography variant="h4" color="blue-gray">
-            Cadastrar Produtos
-          </Typography>
-          <IconButton
-            size="sm"
-            variant="text"
-            className="!absolute right-3.5 top-3.5"
+    <Dialog
+      size="sm"
+      open={open}
+      className="p-4 bg-gray-800 text-gray-300 rounded-lg shadow-lg"
+    >
+      <DialogHeader className="relative m-0 block border-b border-gray-700 pb-2">
+        <Typography variant="h4" className="text-gray-100">
+          Cadastrar Produto
+        </Typography>
+        <IconButton
+          size="sm"
+          variant="text"
+          className="!absolute right-3.5 top-3.5 text-gray-300 hover:text-gray-100"
+          onClick={handleCloseDialog}
+        >
+          <X className="h-4 w-4 stroke-2" />
+        </IconButton>
+      </DialogHeader>
+      <DialogBody className="space-y-4 pb-6">
+        <div>
+          <Typography
+            variant="small"
+            className="mb-2 text-left font-medium text-gray-400"
           >
-            <X className="h-4 w-4 stroke-2" onClick={handleCloseDialog} />
-          </IconButton>
-        </DialogHeader>
-        <DialogBody className="space-y-4 pb-6">
-          <div>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-2 text-left font-medium"
-            >
-              Nome
-            </Typography>
-            <Input
-              color="gray"
-              size="lg"
-              name="name_product"
-              className="placeholder:opacity-100 focus:!border-t-gray-900"
-              containerProps={{
-                className: '!min-w-full'
-              }}
-              labelProps={{
-                className: 'hidden'
-              }}
-            />
-          </div>
-          <div>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-2 text-left font-medium"
-            >
-              Category
-            </Typography>
-            <Select
-              className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-800 ring-4 ring-transparent placeholder:text-gray-600 focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
-              placeholder="1"
-              labelProps={{
-                className: 'hidden'
-              }}
-            >
-              <Option>Clothing</Option>
-              <Option>Fashion</Option>
-              <Option>Watches</Option>
-            </Select>
-          </div>
-          <div className="flex gap-4">
-            <div className="w-full">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="mb-2 text-left font-medium"
-              >
-                Weight
-              </Typography>
-              <Input
-                color="gray"
-                size="lg"
-                placeholder="eg. <8.8oz | 250g"
-                name="weight"
-                className="placeholder:opacity-100 focus:!border-t-gray-900"
-                containerProps={{
-                  className: '!min-w-full'
-                }}
-                labelProps={{
-                  className: 'hidden'
-                }}
-              />
-            </div>
-            <div className="w-full">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="mb-2 text-left font-medium"
-              >
-                Size
-              </Typography>
-              <Input
-                color="gray"
-                size="lg"
-                placeholder="eg. US 8"
-                name="size"
-                className="placeholder:opacity-100 focus:!border-t-gray-900"
-                containerProps={{
-                  className: '!min-w-full'
-                }}
-                labelProps={{
-                  className: 'hidden'
-                }}
-              />
-            </div>
-          </div>
-          <div>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-2 text-left font-medium"
-            >
-              Description (Optional)
-            </Typography>
-            <Textarea
-              rows={7}
-              placeholder="eg. This is a white shoes with a comfortable sole."
-              className="!w-full !border-[1.5px] !border-blue-gray-200/90 !border-t-blue-gray-200/90 bg-white text-gray-600 ring-4 ring-transparent focus:!border-primary focus:!border-t-blue-gray-900 group-hover:!border-primary"
-              labelProps={{
-                className: 'hidden'
-              }}
-            />
-          </div>
-        </DialogBody>
-        <DialogFooter>
-          <Button className="ml-auto">Salvar</Button>
-        </DialogFooter>
-      </Dialog>
-    </>
+            Nome
+          </Typography>
+          <Input id="name" name="name" placeholder="Digite o nome" />
+        </div>
+        <div>
+          <Typography
+            variant="small"
+            className="mb-2 text-left font-medium text-gray-400"
+          >
+            Marca
+          </Typography>
+          <input
+            type="text"
+            id="mark"
+            name="mark"
+            placeholder="Digite uma marca"
+            className="mt-1 block w-full px-3 py-2 border border-transparent rounded-md shadow-sm focus:outline-none bg-gray-700 focus:ring-blue-500 focus:border-blue-500 sm:text-sm placeholder-gray-400"
+          />
+        </div>
+        {/* <div>
+          <Typography
+            variant="small"
+            className="mb-2 text-left font-medium text-gray-400"
+          >
+            Categoria
+          </Typography>
+          <Select
+            id="category"
+            name="category"
+            options={[
+              { value: 'clothing', label: 'Roupas' },
+              { value: 'electronics', label: 'Eletrônicos' },
+              { value: 'appliances', label: 'Eletrodomésticos' },
+              { value: 'others', label: 'Outros' }
+            ]}
+          />
+        </div> */}
+        <div>
+          <Typography
+            variant="small"
+            className="mb-2 text-left font-medium text-gray-400"
+          >
+            Descrição (Opcional)
+          </Typography>
+          <TextArea
+            placeholder="Digite uma descrição para o produto"
+            rows={4}
+          />
+        </div>
+      </DialogBody>
+      <DialogFooter className="border-t border-gray-700 pt-4">
+        <Button
+          className="bg-green-700 text-white hover:bg-green-800"
+          onClick={handleCloseDialog}
+        >
+          Salvar
+        </Button>
+        <Button
+          className="ml-4 bg-gray-600 text-white hover:bg-gray-700"
+          onClick={handleCloseDialog}
+        >
+          Cancelar
+        </Button>
+      </DialogFooter>
+    </Dialog>
   )
 }
