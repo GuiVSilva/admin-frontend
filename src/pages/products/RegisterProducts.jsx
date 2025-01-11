@@ -58,7 +58,6 @@ const data = [
     stock: 300,
     sales: 100
   }
-  // ... mais dados
 ]
 
 const RegisterProducts = () => {
