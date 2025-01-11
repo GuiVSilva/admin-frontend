@@ -15,13 +15,13 @@ import Table from '../../components/Table'
 import { useState } from 'react'
 import Pagination from '../../components/Pagination'
 import { DialogAddProducts } from './Dialog/DialogAddProducts'
+import { DialogEditProducts } from './Dialog/DialogEditProducts'
+import { DialogDeleteProducts } from './Dialog/DialogDeleteProducts'
 
 const headers = [
   { label: 'Nome do Produto', key: 'name' },
-  { label: 'Categoria', key: 'category' },
-  { label: 'Preço', key: 'price' },
-  { label: 'Estoque', key: 'stock' },
-  { label: 'Vendas', key: 'sales' },
+  { label: 'Marca', key: 'mark' },
+  { label: 'Descrição', key: 'description' },
   { label: 'Ações', key: 'actions' }
 ]
 
@@ -29,41 +29,37 @@ const data = [
   {
     id: 1,
     name: 'Produto A',
-    category: 'Categoria 1',
-    price: 10.99,
-    stock: 100,
-    sales: 50
+    mark: 'Marca 1',
+    description: 'Celular'
   },
   {
     id: 2,
     name: 'Produto B',
-    category: 'Categoria 2',
-    price: 20.99,
-    stock: 150,
-    sales: 80
+    mark: 'Marca 2',
+    description: 'TV'
   },
   {
     id: 3,
-    name: 'Produto C',
-    category: 'Categoria 3',
-    price: 30.99,
-    stock: 200,
-    sales: 90
+    name: 'Produto A',
+    mark: 'Marca 3',
+    description: 'Fone'
   },
   {
     id: 4,
-    name: 'Produto D',
-    category: 'Categoria 4',
-    price: 40.99,
-    stock: 300,
-    sales: 100
+    name: 'Produto A',
+    mark: 'Marca 4',
+    description: 'Mouse'
   }
 ]
 
 const RegisterProducts = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [open, setOpen] = useState(false)
+  const [openDialogRegister, setOpenRegister] = useState(false)
+  const [openDialogEdit, setOpenDialogEdit] = useState(false)
+  const [openDialogDelete, setOpenDialogDelete] = useState(false)
+  const [line, setLine] = useState([])
+
   const itemsPerPage = 3
   const filteredData = data.filter(
     item =>
@@ -76,16 +72,47 @@ const RegisterProducts = () => {
     currentPage * itemsPerPage
   )
 
-  const handleOpenDialog = () => {
-    setOpen(true)
+  const handleOpenDialogRegister = () => {
+    setOpenRegister(true)
   }
 
-  const handleCloseDialog = () => {
-    setOpen(false)
+  const handleCloseDialogRegister = () => {
+    setOpenRegister(false)
+  }
+
+  const handleOpenDialogEdit = item => {
+    setOpenDialogEdit(true)
+    setLine(item)
+  }
+
+  const handleCloseDialogEdit = () => {
+    setOpenDialogEdit(false)
+  }
+
+  const handleOpenDialogDelete = item => {
+    setOpenDialogDelete(true)
+    setLine(item)
+  }
+
+  const handleCloseDialogDelete = () => {
+    setOpenDialogDelete(false)
   }
   return (
     <>
-      <DialogAddProducts handleCloseDialog={handleCloseDialog} open={open} />
+      <DialogDeleteProducts
+        handleCloseDialogDelete={handleCloseDialogDelete}
+        openDialogDelete={openDialogDelete}
+        line={line}
+      />
+      <DialogEditProducts
+        handleCloseDialogEdit={handleCloseDialogEdit}
+        openDialogEdit={openDialogEdit}
+        line={line}
+      />
+      <DialogAddProducts
+        handleCloseDialogRegister={handleCloseDialogRegister}
+        openDialogRegister={openDialogRegister}
+      />
       <div className="flex-1 overflow-auto relative z-10">
         <Header title="Cadastro de Produtos" />
 
@@ -126,7 +153,7 @@ const RegisterProducts = () => {
             {/* Botão Cadastrar */}
             <button
               className="flex items-center bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800"
-              onClick={handleOpenDialog}
+              onClick={handleOpenDialogRegister}
             >
               <Plus size={18} className="mr-2" />
               Cadastrar Produto
@@ -160,22 +187,22 @@ const RegisterProducts = () => {
                     {item.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.category}
+                    {item.mark}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.price}
+                    {item.description}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.stock}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.sales}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    <button className="text-indigo-400 hover:text-indigo-300 mr-2">
+                    <button
+                      className="text-indigo-400 hover:text-indigo-300 mr-2"
+                      onClick={() => handleOpenDialogEdit(item)}
+                    >
                       <Edit size={18} />
                     </button>
-                    <button className="text-red-400 hover:text-red-300">
+                    <button
+                      className="text-red-400 hover:text-red-300"
+                      onClick={() => handleOpenDialogDelete(item)}
+                    >
                       <Trash2 size={18} />
                     </button>
                   </td>

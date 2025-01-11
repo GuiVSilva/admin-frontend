@@ -1,18 +1,18 @@
 import {
-  IconButton,
-  Typography,
   Dialog,
   DialogBody,
+  DialogFooter,
   DialogHeader,
-  DialogFooter
+  IconButton,
+  Typography
 } from '@material-tailwind/react'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { X } from 'lucide-react'
 import { Input } from '../../../components/Input '
 import { TextArea } from '../../../components/TextArea'
 import { Button } from '../../../components/Button'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
 import { useState } from 'react'
+import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 
 const validationSchema = Yup.object().shape({
@@ -21,11 +21,13 @@ const validationSchema = Yup.object().shape({
   description: Yup.string()
 })
 
-export const DialogAddProducts = ({
-  openDialogRegister,
-  handleCloseDialogRegister
+export const DialogEditProducts = ({
+  openDialogEdit,
+  handleCloseDialogEdit,
+  line
 }) => {
   const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = async values => {
     console.log('values', values)
     toast.info('Processando, aguarde um momento!')
@@ -35,11 +37,11 @@ export const DialogAddProducts = ({
     const isSuccess = true
 
     if (isSuccess) {
-      toast.success('Produto cadastrado com sucesso!')
+      toast.success('Produto atualizado com sucesso!')
       setIsLoading(false)
-      handleCloseDialogRegister()
+      handleCloseDialogEdit()
     } else {
-      toast.error('Falha ao cadastrar produto!')
+      toast.error('Falha ao atualizar produto!')
       setIsLoading(false)
     }
   }
@@ -47,27 +49,27 @@ export const DialogAddProducts = ({
   return (
     <Dialog
       size="sm"
-      open={openDialogRegister}
+      open={openDialogEdit}
       className="p-4 bg-gray-800 text-gray-300 rounded-lg shadow-lg -z-10"
     >
       <DialogHeader className="relative m-0 block border-b border-gray-700 pb-2">
         <Typography variant="h4" className="text-gray-100">
-          Cadastrar Produto
+          Editar Produto
         </Typography>
         <IconButton
           size="sm"
           variant="text"
           className="!absolute right-3.5 top-3.5 text-gray-300 hover:text-gray-100"
-          onClick={handleCloseDialogRegister}
+          onClick={handleCloseDialogEdit}
         >
           <X className="h-4 w-4 stroke-2" />
         </IconButton>
       </DialogHeader>
       <Formik
         initialValues={{
-          name: '',
-          mark: '',
-          description: ''
+          name: line.name,
+          mark: line.mark,
+          description: line.description
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -115,25 +117,25 @@ export const DialogAddProducts = ({
               />
             </div>
             {/* <div>
-              <Typography
-                variant="small"
-                className="mb-2 text-left font-medium text-gray-400"
-              >
-                Marca
-              </Typography>
-              <Select
-                name="select_sub_problem"
-                label="Sub Problema"
-                options={options}
-                loading={isLoading}
-              />
-
-              <ErrorMessage
-                name="mark"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div> */}
+                    <Typography
+                      variant="small"
+                      className="mb-2 text-left font-medium text-gray-400"
+                    >
+                      Marca
+                    </Typography>
+                    <Select
+                      name="select_sub_problem"
+                      label="Sub Problema"
+                      options={options}
+                      loading={isLoading}
+                    />
+      
+                    <ErrorMessage
+                      name="mark"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
+                  </div> */}
             <div>
               <Typography
                 variant="small"
@@ -159,15 +161,15 @@ export const DialogAddProducts = ({
           <DialogFooter className="border-t border-gray-700 pt-4">
             <Button
               type="submit"
-              className="bg-green-700 text-white hover:bg-green-800"
+              className="bg-yellow-600 text-white hover:bg-yellow-700"
               loading={isLoading}
             >
-              Salvar
+              Atualizar
             </Button>
             <Button
               type="button"
               className="ml-4 bg-gray-600 text-white hover:bg-gray-700"
-              onClick={handleCloseDialogRegister}
+              onClick={handleCloseDialogEdit}
               loading={isLoading}
             >
               Cancelar
