@@ -11,8 +11,31 @@ export const Input = ({
   className = '',
   error,
   loading = false,
+  mask,
   ...props
 }) => {
+  const handleChange = e => {
+    let inputValue = e.target.value
+
+    if (mask === 'money') {
+      const numericValue = inputValue.replace(/\D/g, '') // Remove não numéricos
+      inputValue = (Number(numericValue) / 100).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      })
+    }
+
+    // Chama o onChange do Formik com o valor formatado
+    if (onChange) {
+      onChange({
+        target: {
+          name,
+          value: mask === 'money' ? inputValue : e.target.value
+        }
+      })
+    }
+  }
+
   return (
     <div className="flex flex-col">
       <div className="relative">
@@ -20,7 +43,7 @@ export const Input = ({
           id={id}
           name={name}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           onBlur={onBlur}
           type={type}
           placeholder={placeholder}

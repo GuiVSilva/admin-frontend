@@ -22,6 +22,8 @@ const headers = [
   { label: 'Nome do Produto', key: 'name' },
   { label: 'Marca', key: 'mark' },
   { label: 'Descrição', key: 'description' },
+  { label: 'Valor de custo', key: 'cost_price' },
+  { label: 'Valor de venda', key: 'sale_price' },
   { label: 'Ações', key: 'actions' }
 ]
 
@@ -30,25 +32,33 @@ const data = [
     id: 1,
     name: 'Produto A',
     mark: 'Marca 1',
-    description: 'Celular'
+    description: 'Celular',
+    cost_price: 'R$ 1000,00',
+    sale_price: 'R$ 2000,00'
   },
   {
     id: 2,
     name: 'Produto B',
     mark: 'Marca 2',
-    description: 'TV'
+    description: 'TV',
+    cost_price: 'R$ 1500,00',
+    sale_price: 'R$ 3000,00'
   },
   {
     id: 3,
-    name: 'Produto A',
+    name: 'Produto C',
     mark: 'Marca 3',
-    description: 'Fone'
+    description: 'Fone',
+    cost_price: 'R$ 100,00',
+    sale_price: 'R$ 250,00'
   },
   {
     id: 4,
-    name: 'Produto A',
+    name: 'Produto D',
     mark: 'Marca 4',
-    description: 'Mouse'
+    description: 'Mouse',
+    cost_price: 'R$ 50,00',
+    sale_price: 'R$ 150,00'
   }
 ]
 
@@ -191,6 +201,12 @@ const RegisterProducts = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {item.description}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {item.cost_price}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {item.sale_price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     <button
