@@ -71,10 +71,10 @@ const RegisterProducts = () => {
   const [line, setLine] = useState([])
 
   const itemsPerPage = 3
-  const filteredData = data.filter(
+  const filteredData = data?.filter(
     item =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase())
+      item?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.category?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const currentData = filteredData.slice(
