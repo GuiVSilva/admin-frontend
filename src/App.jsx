@@ -39,7 +39,7 @@ const LayoutWithSidebar = () => (
         }}
       />
       <Routes>
-        <Route path="/" element={<OverviewPage />} />
+        <Route path="/dashboard" element={<OverviewPage />} />
         <Route
           path="/products/register-products"
           element={<RegisterProducts />}
@@ -54,7 +54,7 @@ function App() {
   return (
     <Routes>
       {/* Rota do Login isolada, sem Sidebar e fundo */}
-      <Route path="/login" element={<LoginScreen />} />
+      <Route path="/" element={<LoginScreen />} />
 
       {/* Layout Principal com Sidebar */}
       <Route path="/*" element={<LayoutWithSidebar />} />

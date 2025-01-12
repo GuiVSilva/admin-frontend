@@ -9,7 +9,7 @@ const LoginScreen = () => {
   const navigate = useNavigate()
 
   const handleSubmit = () => {
-    navigate('/')
+    navigate('/dashboard')
   }
 
   return (

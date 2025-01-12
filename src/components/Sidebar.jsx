@@ -21,7 +21,7 @@ const SIDEBAR_ITEMS = [
     name: 'Dashboard',
     icon: BarChart2,
     color: '#6366f1',
-    href: '/'
+    href: '/dashboard'
   },
   {
     name: 'Produtos',
