@@ -97,10 +97,12 @@ const Sidebar = () => {
   }
 
   const handleClickItem = item => {
+    // Se o item tiver subitens, abre o sidebar e exibe o submenu
     if (item.subItems) {
-      toggleSubMenu(item.name)
+      setIsSideBarOpen(true) // Abre o sidebar se estiver fechado
+      toggleSubMenu(item.name) // Alterna o submenu
     } else {
-      navigate(item.href)
+      navigate(item.href) // Navega se o item não tiver submenu
     }
   }
 
