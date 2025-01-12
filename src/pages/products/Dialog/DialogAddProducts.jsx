@@ -7,7 +7,8 @@ import {
   DialogFooter
 } from '@material-tailwind/react'
 import { X } from 'lucide-react'
-import { Input } from '../../../components/Input '
+
+import { Input } from '../../../components/Input'
 import { TextArea } from '../../../components/TextArea'
 import { Button } from '../../../components/Button'
 import { Formik, Form, Field, ErrorMessage } from 'formik'

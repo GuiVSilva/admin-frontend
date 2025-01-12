@@ -8,7 +8,7 @@ import {
 } from '@material-tailwind/react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { X } from 'lucide-react'
-import { Input } from '../../../../components/Input '
+import { Input } from '../../../../components/Input'
 import { useState } from 'react'
 import { Button } from '../../../../components/Button'
 import * as Yup from 'yup'
