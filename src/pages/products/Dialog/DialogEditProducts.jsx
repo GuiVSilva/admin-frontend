@@ -189,7 +189,7 @@ export const DialogEditProducts = ({
                 variant="small"
                 className="mb-2 text-left font-medium text-gray-400"
               >
-                Descrição (Opcional)
+                Descrição
               </Typography>
               <Field
                 as={TextArea}

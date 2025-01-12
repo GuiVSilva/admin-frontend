@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Mail, Lock } from 'lucide-react'
+import { Mail, Lock, Layers } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import Boxes from '../../assets/boxes.gif'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -12,24 +13,18 @@ const LoginScreen = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-800">
-      {/* Left side - Image */}
-      <div className="w-1/2 bg-gray-300">
-        <img
-          src="/api/placeholder/800/600"
-          alt="Login visual"
-          className="object-cover w-full h-full"
-        />
+    <div className="flex flex-col md:flex-row h-screen bg-gray-800">
+      <div className="hidden md:flex w-1/2 bg-gray-200 items-center justify-center min-h-screen">
+        <img src={Boxes} alt="" className="object-cover w-full h-50" />
       </div>
 
-      {/* Right side - Login Form */}
-      <div className="w-1/2 flex items-center justify-center px-8 bg-gray-800">
-        <div className="w-full max-w-sm">
+      <div className="w-full md:w-1/2 flex items-center justify-center px-8 bg-gray-800 min-h-screen">
+        <div className="w-full max-w-sm md:max-w-md">
           <div className="mb-8 text-center">
-            <h2 className="text-3xl font-bold text-white mb-2">Welcome back</h2>
-            <p className="text-gray-300">
-              Please enter your details to sign in
-            </p>
+            <h2 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-2">
+              <Layers className="h-8 w-8 text-blue-500" />
+              StackFlow
+            </h2>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -39,7 +34,7 @@ const LoginScreen = () => {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-300 mb-2"
               >
-                Email Address
+                Email
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -51,7 +46,7 @@ const LoginScreen = () => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   className="block w-full pl-10 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
-                  placeholder="Enter your email"
+                  placeholder="Digite seu email"
                   required
                 />
               </div>
@@ -63,7 +58,7 @@ const LoginScreen = () => {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-300 mb-2"
               >
-                Password
+                Senha
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -75,33 +70,10 @@ const LoginScreen = () => {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                   className="block w-full pl-10 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
-                  placeholder="Enter your password"
+                  placeholder="Digite sua senha"
                   required
                 />
               </div>
-            </div>
-
-            {/* Remember me and Forgot password */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-300"
-                >
-                  Remember me
-                </label>
-              </div>
-              <button
-                type="button"
-                className="text-sm font-medium text-blue-500 hover:text-blue-400"
-              >
-                Forgot password?
-              </button>
             </div>
 
             {/* Login Button */}
@@ -109,17 +81,24 @@ const LoginScreen = () => {
               type="submit"
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800"
             >
-              Sign in
+              Login
             </button>
-
-            {/* Sign up link */}
-            <p className="text-center text-sm text-gray-300">
-              Don't have an account?{' '}
+            <div className="text-center">
               <button
                 type="button"
-                className="font-medium text-blue-500 hover:text-blue-400"
+                className="text-sm font-medium text-blue-500 hover:text-blue-400"
               >
-                Sign up
+                Esqueceu a senha?
+              </button>
+            </div>
+
+            <p className="text-center text-sm text-gray-300">
+              Não tem uma conta?
+              <button
+                type="button"
+                className="ml-1 font-medium text-blue-500 hover:text-blue-400"
+              >
+                Cadastrar
               </button>
             </p>
           </form>
