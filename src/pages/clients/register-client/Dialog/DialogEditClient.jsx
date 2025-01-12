@@ -1,33 +1,34 @@
 import {
-  IconButton,
-  Typography,
   Dialog,
   DialogBody,
+  DialogFooter,
   DialogHeader,
-  DialogFooter
+  IconButton,
+  Typography
 } from '@material-tailwind/react'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { X } from 'lucide-react'
-import { Input } from '../../../components/Input '
-import { TextArea } from '../../../components/TextArea'
-import { Button } from '../../../components/Button'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
+import { Input } from '../../../../components/Input '
+import { Button } from '../../../../components/Button'
 import { useState } from 'react'
+import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
-  mark: Yup.string().required('A marca é obrigatória'),
-  cost_price: Yup.string().required('O valor de custo é obrigatório'),
-  sale_price: Yup.string().required('O valor de venda é obrigatório'),
-  description: Yup.string().required('A descrição é obrigatória')
+  cnpf_cnpj: Yup.string().required('A CPF/CNPJ é obrigatório'),
+  email: Yup.string().email('Email inválido').required('O email é obrigatório'),
+  cellPhone: Yup.string().required('O número de telefone é obrigatório')
 })
 
-export const DialogAddProducts = ({
-  openDialogRegister,
-  handleCloseDialogRegister
+export const DialogEditClient = ({
+  openDialogEdit,
+  handleCloseDialogEdit,
+  line
 }) => {
   const [isLoading, setIsLoading] = useState(false)
+  console.log('line', line)
+
   const handleSubmit = async values => {
     console.log('values', values)
     toast.info('Processando, aguarde um momento!')
@@ -37,11 +38,11 @@ export const DialogAddProducts = ({
     const isSuccess = true
 
     if (isSuccess) {
-      toast.success('Produto cadastrado com sucesso!')
+      toast.success('Cliente atualizado com sucesso!')
       setIsLoading(false)
-      handleCloseDialogRegister()
+      handleCloseDialogEdit()
     } else {
-      toast.error('Falha ao cadastrar produto!')
+      toast.error('Falha ao atualizar cliente!')
       setIsLoading(false)
     }
   }
@@ -49,29 +50,28 @@ export const DialogAddProducts = ({
   return (
     <Dialog
       size="sm"
-      open={openDialogRegister}
+      open={openDialogEdit}
       className="p-4 bg-gray-800 text-gray-300 rounded-lg shadow-lg"
     >
       <DialogHeader className="relative m-0 block border-b border-gray-700 pb-2">
         <Typography variant="h4" className="text-gray-100">
-          Dados do Produto
+          Editar Cliente
         </Typography>
         <IconButton
           size="sm"
           variant="text"
           className="!absolute right-3.5 top-3.5 text-gray-300 hover:text-gray-100"
-          onClick={handleCloseDialogRegister}
+          onClick={handleCloseDialogEdit}
         >
           <X className="h-4 w-4 stroke-2" />
         </IconButton>
       </DialogHeader>
       <Formik
         initialValues={{
-          name: '',
-          mark: '',
-          description: '',
-          cost_price: '',
-          sale_price: ''
+          name: line.name,
+          cnpf_cnpj: line.cpf_cnpj,
+          email: line.email,
+          cellPhone: line.cellPhone
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -103,17 +103,18 @@ export const DialogAddProducts = ({
                 variant="small"
                 className="mb-2 text-left font-medium text-gray-400"
               >
-                Marca
+                CPF/CNPJ
               </Typography>
               <Field
                 as={Input}
-                id="mark"
-                name="mark"
-                placeholder="Digite uma marca"
+                id="cnpf_cnpj"
+                name="cnpf_cnpj"
+                placeholder="Digite o CNPJ ou CNPj"
                 loading={isLoading}
+                mask="cpf_cnpj"
               />
               <ErrorMessage
-                name="mark"
+                name="cnpf_cnpj"
                 component="div"
                 className="text-red-500 text-sm"
               />
@@ -124,18 +125,17 @@ export const DialogAddProducts = ({
                   variant="small"
                   className="mb-2 text-left font-medium text-gray-400"
                 >
-                  Preço de custo
+                  Email
                 </Typography>
                 <Field
                   as={Input}
-                  id="cost_price"
-                  name="cost_price"
-                  placeholder="Valor de Custo"
+                  id="email"
+                  name="email"
+                  placeholder="Digite email"
                   loading={isLoading}
-                  mask="money"
                 />
                 <ErrorMessage
-                  name="cost_price"
+                  name="email"
                   component="div"
                   className="text-red-500 text-sm"
                 />
@@ -145,77 +145,36 @@ export const DialogAddProducts = ({
                   variant="small"
                   className="mb-2 text-left font-medium text-gray-400"
                 >
-                  Preço de venda
+                  Celular
                 </Typography>
                 <Field
                   as={Input}
-                  id="sale_price"
-                  name="sale_price"
-                  placeholder="Valor de Venda"
+                  id="cellPhone"
+                  name="cellPhone"
+                  placeholder="Digite o número"
                   loading={isLoading}
-                  mask="money"
+                  mask="phone"
                 />
                 <ErrorMessage
-                  name="sale_price"
+                  name="cellPhone"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
             </div>
-            {/* <div>
-              <Typography
-                variant="small"
-                className="mb-2 text-left font-medium text-gray-400"
-              >
-                Marca
-              </Typography>
-              <Select
-                name="select_sub_problem"
-                label="Sub Problema"
-                options={options}
-                loading={isLoading}
-              />
-
-              <ErrorMessage
-                name="mark"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div> */}
-            <div>
-              <Typography
-                variant="small"
-                className="mb-2 text-left font-medium text-gray-400"
-              >
-                Descrição
-              </Typography>
-              <Field
-                as={TextArea}
-                id="description"
-                name="description"
-                placeholder="Digite uma descrição para o produto"
-                rows={2}
-                loading={isLoading}
-              />
-              <ErrorMessage
-                name="description"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
           </DialogBody>
           <DialogFooter className="border-t border-gray-700 pt-4">
             <Button
               type="submit"
-              className="bg-green-700 text-white hover:bg-green-800"
+              className="bg-yellow-600 text-white hover:bg-yellow-700"
               loading={isLoading}
             >
-              Salvar
+              Atualizar
             </Button>
             <Button
               type="button"
               className="ml-4 bg-gray-600 text-white hover:bg-gray-700"
-              onClick={handleCloseDialogRegister}
+              onClick={handleCloseDialogEdit}
               loading={isLoading}
             >
               Cancelar

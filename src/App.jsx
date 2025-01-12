@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar'
 import OverviewPage from './pages/dashboard/OverviewPage'
 import RegisterProducts from './pages/products/RegisterProducts'
 import LoginScreen from './pages/login/LoginScreen'
+import { RegisterClients } from './pages/clients/register-client'
 
 const LayoutWithSidebar = () => (
   <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
@@ -43,6 +44,7 @@ const LayoutWithSidebar = () => (
           path="/products/register-products"
           element={<RegisterProducts />}
         />
+        <Route path="/clients/register-clients" element={<RegisterClients />} />
       </Routes>
     </div>
   </div>

@@ -1,33 +1,32 @@
 import {
-  IconButton,
-  Typography,
   Dialog,
   DialogBody,
+  DialogFooter,
   DialogHeader,
-  DialogFooter
+  IconButton,
+  Typography
 } from '@material-tailwind/react'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { X } from 'lucide-react'
-import { Input } from '../../../components/Input '
-import { TextArea } from '../../../components/TextArea'
-import { Button } from '../../../components/Button'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
+import { Input } from '../../../../components/Input '
 import { useState } from 'react'
+import { Button } from '../../../../components/Button'
+import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
-  mark: Yup.string().required('A marca é obrigatória'),
-  cost_price: Yup.string().required('O valor de custo é obrigatório'),
-  sale_price: Yup.string().required('O valor de venda é obrigatório'),
-  description: Yup.string().required('A descrição é obrigatória')
+  cnpf_cnpj: Yup.string().required('A CPF/CNPJ é obrigatório'),
+  email: Yup.string().email('Email inválido').required('O email é obrigatório'),
+  cellPhone: Yup.string().required('O número de telefone é obrigatório')
 })
 
-export const DialogAddProducts = ({
+export const DialogRegisterClient = ({
   openDialogRegister,
   handleCloseDialogRegister
 }) => {
   const [isLoading, setIsLoading] = useState(false)
+
   const handleSubmit = async values => {
     console.log('values', values)
     toast.info('Processando, aguarde um momento!')
@@ -37,11 +36,11 @@ export const DialogAddProducts = ({
     const isSuccess = true
 
     if (isSuccess) {
-      toast.success('Produto cadastrado com sucesso!')
+      toast.success('Cliente cadastrado com sucesso!')
       setIsLoading(false)
       handleCloseDialogRegister()
     } else {
-      toast.error('Falha ao cadastrar produto!')
+      toast.error('Falha ao cadastrar cliente!')
       setIsLoading(false)
     }
   }
@@ -54,7 +53,7 @@ export const DialogAddProducts = ({
     >
       <DialogHeader className="relative m-0 block border-b border-gray-700 pb-2">
         <Typography variant="h4" className="text-gray-100">
-          Dados do Produto
+          Dados do Cliente
         </Typography>
         <IconButton
           size="sm"
@@ -66,13 +65,7 @@ export const DialogAddProducts = ({
         </IconButton>
       </DialogHeader>
       <Formik
-        initialValues={{
-          name: '',
-          mark: '',
-          description: '',
-          cost_price: '',
-          sale_price: ''
-        }}
+        initialValues={{ name: '', cnpf_cnpj: '', email: '', cellPhone: '' }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
@@ -103,17 +96,18 @@ export const DialogAddProducts = ({
                 variant="small"
                 className="mb-2 text-left font-medium text-gray-400"
               >
-                Marca
+                CPF/CNPJ
               </Typography>
               <Field
                 as={Input}
-                id="mark"
-                name="mark"
-                placeholder="Digite uma marca"
+                id="cnpf_cnpj"
+                name="cnpf_cnpj"
+                placeholder="Digite o CNPJ ou CNPj"
                 loading={isLoading}
+                mask="cpf_cnpj"
               />
               <ErrorMessage
-                name="mark"
+                name="cnpf_cnpj"
                 component="div"
                 className="text-red-500 text-sm"
               />
@@ -124,18 +118,17 @@ export const DialogAddProducts = ({
                   variant="small"
                   className="mb-2 text-left font-medium text-gray-400"
                 >
-                  Preço de custo
+                  Email
                 </Typography>
                 <Field
                   as={Input}
-                  id="cost_price"
-                  name="cost_price"
-                  placeholder="Valor de Custo"
+                  id="email"
+                  name="email"
+                  placeholder="Digite email"
                   loading={isLoading}
-                  mask="money"
                 />
                 <ErrorMessage
-                  name="cost_price"
+                  name="email"
                   component="div"
                   className="text-red-500 text-sm"
                 />
@@ -145,63 +138,22 @@ export const DialogAddProducts = ({
                   variant="small"
                   className="mb-2 text-left font-medium text-gray-400"
                 >
-                  Preço de venda
+                  Celular
                 </Typography>
                 <Field
                   as={Input}
-                  id="sale_price"
-                  name="sale_price"
-                  placeholder="Valor de Venda"
+                  id="cellPhone"
+                  name="cellPhone"
+                  placeholder="Digite o número"
                   loading={isLoading}
-                  mask="money"
+                  mask="phone"
                 />
                 <ErrorMessage
-                  name="sale_price"
+                  name="cellPhone"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-            </div>
-            {/* <div>
-              <Typography
-                variant="small"
-                className="mb-2 text-left font-medium text-gray-400"
-              >
-                Marca
-              </Typography>
-              <Select
-                name="select_sub_problem"
-                label="Sub Problema"
-                options={options}
-                loading={isLoading}
-              />
-
-              <ErrorMessage
-                name="mark"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div> */}
-            <div>
-              <Typography
-                variant="small"
-                className="mb-2 text-left font-medium text-gray-400"
-              >
-                Descrição
-              </Typography>
-              <Field
-                as={TextArea}
-                id="description"
-                name="description"
-                placeholder="Digite uma descrição para o produto"
-                rows={2}
-                loading={isLoading}
-              />
-              <ErrorMessage
-                name="description"
-                component="div"
-                className="text-red-500 text-sm"
-              />
             </div>
           </DialogBody>
           <DialogFooter className="border-t border-gray-700 pt-4">

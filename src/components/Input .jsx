@@ -18,19 +18,53 @@ export const Input = ({
     let inputValue = e.target.value
 
     if (mask === 'money') {
-      const numericValue = inputValue.replace(/\D/g, '') // Remove não numéricos
+      const numericValue = inputValue.replace(/\D/g, '')
       inputValue = (Number(numericValue) / 100).toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL'
       })
     }
 
-    // Chama o onChange do Formik com o valor formatado
+    if (mask === 'phone') {
+      inputValue = inputValue.replace(/\D/g, '')
+
+      if (inputValue.length > 11) {
+        inputValue = inputValue.slice(0, 11)
+      }
+
+      if (inputValue.length <= 10) {
+        inputValue = inputValue.replace(
+          /(\d{2})(\d{0,5})(\d{0,4})/,
+          '($1) $2-$3'
+        )
+      } else {
+        inputValue = inputValue.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+      }
+    }
+
+    if (mask === 'cpf_cnpj') {
+      inputValue = inputValue.replace(/\D/g, '')
+      if (inputValue.length <= 11) {
+        inputValue = inputValue.replace(
+          /(\d{3})(\d{3})(\d{3})(\d{2})/,
+          '$1.$2.$3-$4'
+        )
+      } else if (inputValue.length <= 14) {
+        inputValue = inputValue.replace(
+          /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+          '$1.$2.$3/$4-$5'
+        )
+      }
+    }
+
     if (onChange) {
       onChange({
         target: {
           name,
-          value: mask === 'money' ? inputValue : e.target.value
+          value:
+            mask === 'money' || mask === 'phone' || mask === 'cpf_cnpj'
+              ? inputValue
+              : e.target.value
         }
       })
     }

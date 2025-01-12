@@ -7,11 +7,11 @@ import {
 } from '@material-tailwind/react'
 import { Form, Formik } from 'formik'
 import { X } from 'lucide-react'
-import { Button } from '../../../components/Button'
-import { toast } from 'react-toastify'
+import { Button } from '../../../../components/Button'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
-export const DialogDeleteProducts = ({
+export const DialogDeleteClient = ({
   openDialogDelete,
   handleCloseDialogDelete,
   line
@@ -22,15 +22,15 @@ export const DialogDeleteProducts = ({
     toast.info('Processando, aguarde um momento!')
     setIsLoading(true)
     await new Promise(resolve => setTimeout(resolve, 1000))
-    console.log('id do produto', line.id)
+    console.log('id do cliente', line.id)
     const isSuccess = true
 
     if (isSuccess) {
-      toast.success('Produto excluido com sucesso!')
+      toast.success('Cliente excluido com sucesso!')
       setIsLoading(false)
       handleCloseDialogDelete()
     } else {
-      toast.error('Falha ao excluir produto!')
+      toast.error('Falha ao excluir cliente!')
       setIsLoading(false)
     }
   }
@@ -58,7 +58,7 @@ export const DialogDeleteProducts = ({
         <Form>
           <div className="mt-4 text-center pt-10">
             <Typography variant="h5" className="text-gray-300">
-              Tem certeza que deseja excluir o produto?
+              Tem certeza que deseja excluir o Cliente?
             </Typography>
           </div>
 

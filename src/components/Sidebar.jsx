@@ -7,11 +7,13 @@ import {
   Users,
   DollarSign,
   ShoppingCart,
-  Layers,
   CircleDollarSignIcon,
   FileChartColumn,
   Settings,
-  Menu
+  Menu,
+  Package,
+  Contact,
+  Barcode
 } from 'lucide-react'
 
 const SIDEBAR_ITEMS = [
@@ -29,7 +31,7 @@ const SIDEBAR_ITEMS = [
     subItems: [
       {
         name: 'Cadastrar Produtos',
-        icon: ShoppingBag,
+        icon: Barcode,
         href: '/products/register-products'
       }
     ]
@@ -38,7 +40,14 @@ const SIDEBAR_ITEMS = [
     name: 'Clientes',
     icon: Users,
     color: '#EC4899',
-    href: '/clients'
+    href: '/clients',
+    subItems: [
+      {
+        name: 'Cadastrar Clientes',
+        icon: Contact,
+        href: '/clients/register-clients'
+      }
+    ]
   },
   {
     name: 'Vendas',
@@ -54,7 +63,7 @@ const SIDEBAR_ITEMS = [
   },
   {
     name: 'Estoque',
-    icon: Layers,
+    icon: Package,
     color: '#3B82F6',
     href: '/stock'
   },
