@@ -1,8 +1,8 @@
-import { Spinner } from '@material-tailwind/react'
+import { Spinner } from "@material-tailwind/react";
 
 export const Button = ({
   children,
-  className = '',
+  className = "",
   loading = false,
   ...props
 }) => {
@@ -11,7 +11,7 @@ export const Button = ({
       {...props}
       disabled={loading}
       className={`px-4 py-2 rounded-lg hover:bg-opacity-80 transition ${
-        loading ? 'cursor-not-allowed opacity-75' : ''
+        loading ? "cursor-not-allowed opacity-75" : ""
       } ${className}`}
     >
       {loading ? (
@@ -23,5 +23,5 @@ export const Button = ({
         children
       )}
     </button>
-  )
-}
+  );
+};

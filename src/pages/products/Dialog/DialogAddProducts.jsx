@@ -4,48 +4,48 @@ import {
   Dialog,
   DialogBody,
   DialogHeader,
-  DialogFooter
-} from '@material-tailwind/react'
-import { X } from 'lucide-react'
+  DialogFooter,
+} from "@material-tailwind/react";
+import { X } from "lucide-react";
 
-import { Input } from '../../../components/Input'
-import { TextArea } from '../../../components/TextArea'
-import { Button } from '../../../components/Button'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
-import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { Input } from "../../../components/Input";
+import { TextArea } from "../../../components/TextArea";
+import { Button } from "../../../components/Button";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required('O nome é obrigatório'),
-  mark: Yup.string().required('A marca é obrigatória'),
-  cost_price: Yup.string().required('O valor de custo é obrigatório'),
-  sale_price: Yup.string().required('O valor de venda é obrigatório'),
-  description: Yup.string().required('A descrição é obrigatória')
-})
+  name: Yup.string().required("O nome é obrigatório"),
+  mark: Yup.string().required("A marca é obrigatória"),
+  cost_price: Yup.string().required("O valor de custo é obrigatório"),
+  sale_price: Yup.string().required("O valor de venda é obrigatório"),
+  description: Yup.string().required("A descrição é obrigatória"),
+});
 
 export const DialogAddProducts = ({
   openDialogRegister,
-  handleCloseDialogRegister
+  handleCloseDialogRegister,
 }) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const handleSubmit = async values => {
-    console.log('values', values)
-    toast.info('Processando, aguarde um momento!')
-    setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async (values) => {
+    console.log("values", values);
+    toast.info("Processando, aguarde um momento!");
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const isSuccess = true
+    const isSuccess = true;
 
     if (isSuccess) {
-      toast.success('Produto cadastrado com sucesso!')
-      setIsLoading(false)
-      handleCloseDialogRegister()
+      toast.success("Produto cadastrado com sucesso!");
+      setIsLoading(false);
+      handleCloseDialogRegister();
     } else {
-      toast.error('Falha ao cadastrar produto!')
-      setIsLoading(false)
+      toast.error("Falha ao cadastrar produto!");
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog
@@ -68,11 +68,11 @@ export const DialogAddProducts = ({
       </DialogHeader>
       <Formik
         initialValues={{
-          name: '',
-          mark: '',
-          description: '',
-          cost_price: '',
-          sale_price: ''
+          name: "",
+          mark: "",
+          description: "",
+          cost_price: "",
+          sale_price: "",
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -112,6 +112,7 @@ export const DialogAddProducts = ({
                 name="mark"
                 placeholder="Digite uma marca"
                 loading={isLoading}
+                size={10}
               />
               <ErrorMessage
                 name="mark"
@@ -225,5 +226,5 @@ export const DialogAddProducts = ({
         </Form>
       </Formik>
     </Dialog>
-  )
-}
+  );
+};
