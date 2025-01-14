@@ -5,8 +5,33 @@ import { ReceiptText, ShoppingBag, User, Zap } from 'lucide-react'
 import SalesOverviewChart from '../../components/charts/SalesOverviewChart'
 import BestSellingProductsChart from '../../components/charts/BestSellingProductsChart'
 import OrdersCharts from '../../components/charts/OrdersCharts'
+import { useAuth } from '@clerk/clerk-react'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Spinner } from '@material-tailwind/react'
 
 const OverviewPage = () => {
+  const { isLoaded, userId } = useAuth()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (isLoaded) {
+      if (!userId) {
+        navigate('/')
+      } else {
+        setLoading(false)
+      }
+    }
+  }, [isLoaded, userId, navigate])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-800">
+        <Spinner className="h-12 w-12 text-gray-500" color="blue" />
+      </div>
+    )
+  }
   return (
     <div className="flex-1 overflow-auto relative z-10">
       <Header title="Dashboard" />
