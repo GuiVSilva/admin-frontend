@@ -1,10 +1,10 @@
 // import React from "react";
 
-import { useState } from "react";
-import Header from "../../../components/Header";
+import { useState } from 'react'
+import Header from '../../../components/Header'
 // import StatCard from "../../../components/StatCard";
-import Table from "../../../components/Table";
-import { motion } from "framer-motion";
+import Table from '../../../components/Table'
+import { motion } from 'framer-motion'
 import {
   // AlertTriangle,
   // DollarSign,
@@ -13,59 +13,59 @@ import {
   Plus,
   // Scale,
   Search,
-  Trash2,
-} from "lucide-react";
-import Pagination from "../../../components/Pagination";
-import DialogCreateLocal from "./Dialog/DialogCreateLocal";
+  Trash2
+} from 'lucide-react'
+import Pagination from '../../../components/Pagination'
+import { DialogCreateLocal } from './Dialog/DialogCreateLocal'
 
 const headers = [
-  { label: "Descrição", key: "description" },
-  { label: "Ações", key: "actions" },
-];
+  { label: 'Descrição', key: 'description' },
+  { label: 'Ações', key: 'actions' }
+]
 
 const data = [
   {
     id: 1,
-    name: "Local A",
+    name: 'Local A'
   },
   {
     id: 2,
-    name: "Local B",
+    name: 'Local B'
   },
   {
     id: 3,
-    name: "Local C",
+    name: 'Local C'
   },
   {
     id: 4,
-    name: "Local D",
-  },
-];
+    name: 'Local D'
+  }
+]
 
 const CreateLocal = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [openDialogRegister, setOpenDialogRegister] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [openDialogRegister, setOpenDialogRegister] = useState(false)
 
-  const itemsPerPage = 3;
+  const itemsPerPage = 3
   const filteredData = data?.filter(
-    (item) =>
+    item =>
       item?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item?.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
+  )
 
   const handleOpenDialogRegister = () => {
-    setOpenDialogRegister(true);
-  };
+    setOpenDialogRegister(true)
+  }
 
   const handleCloseDialogRegister = () => {
-    setOpenDialogRegister(false);
-  };
+    setOpenDialogRegister(false)
+  }
 
   return (
     <>
@@ -76,7 +76,7 @@ const CreateLocal = () => {
       <div className="flex-1 overflow-auto relative z-10">
         <Header title="Cadastro de Locais" />
 
-        <main className="max-w-7xl mx-auto py-20 px-4 lg:px-8" >
+        <main className="max-w-7xl mx-auto py-20 px-4 lg:px-8">
           {/* <motion.div
             className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
             initial={{ opacity: 0, y: 20 }}
@@ -126,7 +126,7 @@ const CreateLocal = () => {
                 placeholder="Pesquisar"
                 className="bg-gray-700 text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
               <Search
                 className="absolute left-3 top-2.5 text-gray-400"
@@ -183,6 +183,6 @@ const CreateLocal = () => {
         </main>
       </div>
     </>
-  );
-};
-export default CreateLocal;
+  )
+}
+export default CreateLocal
