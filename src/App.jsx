@@ -5,8 +5,9 @@ import Sidebar from "./components/Sidebar";
 import OverviewPage from "./pages/dashboard/OverviewPage";
 import RegisterProducts from "./pages/products/RegisterProducts";
 import LoginScreen from "./pages/login/LoginScreen";
-import { RegisterClients } from "./pages/clients/register-client";
+import RegisterClients from "./pages/clients/register-client";
 import CreateLocal from "./pages/stock/createLocal/CreateLocal";
+import MovimentationStock from "./pages/stock/movimentationStock/MovimentationStock";
 
 const LayoutWithSidebar = () => (
   <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
@@ -47,6 +48,10 @@ const LayoutWithSidebar = () => (
         />
         <Route path="/clients/register-clients" element={<RegisterClients />} />
         <Route path="/stock/register-products" element={<CreateLocal />} />
+        <Route
+          path="/stock/movimentation-stock"
+          element={<MovimentationStock />}
+        />
       </Routes>
     </div>
   </div>

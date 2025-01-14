@@ -15,6 +15,7 @@ import {
   Contact,
   Barcode,
   Blocks,
+  ArrowRightLeft,
 } from "lucide-react";
 
 const SIDEBAR_ITEMS = [
@@ -72,6 +73,11 @@ const SIDEBAR_ITEMS = [
         name: "Cadastrar Locais de Estoque",
         icon: Blocks,
         href: "/stock/register-products",
+      },
+      {
+        name: "Movimentação de Estoque",
+        icon: ArrowRightLeft,
+        href: "/stock/movimentation-stock",
       },
     ],
   },

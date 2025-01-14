@@ -1,10 +1,10 @@
 // import React from "react";
 
-import { useState } from 'react'
-import Header from '../../../components/Header'
+import { useState } from "react";
+import Header from "../../../components/Header";
 // import StatCard from "../../../components/StatCard";
-import Table from '../../../components/Table'
-import { motion } from 'framer-motion'
+import Table from "../../../components/Table";
+import { motion } from "framer-motion";
 import {
   // AlertTriangle,
   // DollarSign,
@@ -13,65 +13,98 @@ import {
   Plus,
   // Scale,
   Search,
-  Trash2
-} from 'lucide-react'
-import Pagination from '../../../components/Pagination'
-import { DialogCreateLocal } from './Dialog/DialogCreateLocal'
+  Trash2,
+} from "lucide-react";
+import Pagination from "../../../components/Pagination";
+import { DialogCreateLocal } from "./Dialog/DialogCreateLocal";
+import { DialogEditLocal } from "./Dialog/DIalogEditLocal";
+import { DialogDeleteLocal } from "./Dialog/DialogDeleteLocal";
 
 const headers = [
-  { label: 'Descrição', key: 'description' },
-  { label: 'Ações', key: 'actions' }
-]
+  { label: "Descrição", key: "description" },
+  { label: "Ações", key: "actions" },
+];
 
 const data = [
   {
     id: 1,
-    name: 'Local A'
+    name: "Local A",
   },
   {
     id: 2,
-    name: 'Local B'
+    name: "Local B",
   },
   {
     id: 3,
-    name: 'Local C'
+    name: "Local C",
   },
   {
     id: 4,
-    name: 'Local D'
-  }
-]
+    name: "Local D",
+  },
+];
 
 const CreateLocal = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [openDialogRegister, setOpenDialogRegister] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [openDialogRegister, setOpenDialogRegister] = useState(false);
+  const [openDialogEdit, setOpenDialogEdit] = useState(false);
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
+  const [line, setLine] = useState(null);
 
-  const itemsPerPage = 3
+  const itemsPerPage = 3;
   const filteredData = data?.filter(
-    item =>
+    (item) =>
       item?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item?.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  );
 
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  )
+  );
 
   const handleOpenDialogRegister = () => {
-    setOpenDialogRegister(true)
-  }
+    setOpenDialogRegister(true);
+  };
 
   const handleCloseDialogRegister = () => {
-    setOpenDialogRegister(false)
-  }
+    setOpenDialogRegister(false);
+  };
+
+  const handleOpenDialogEdit = (item) => {
+    setLine(item);
+    setOpenDialogEdit(true);
+  };
+
+  const handleCloseDialogEdit = () => {
+    setOpenDialogEdit(false);
+  };
+
+  const handleOpenDialogDelete = (item) => {
+    setLine(item);
+    setOpenDialogDelete(true);
+  };
+
+  const handleCloseDialogDelete = () => {
+    setOpenDialogDelete(false);
+  };
 
   return (
     <>
       <DialogCreateLocal
         open={openDialogRegister}
         onClose={handleCloseDialogRegister}
+      />
+      <DialogEditLocal
+        open={openDialogEdit}
+        onClose={handleCloseDialogEdit}
+        line={line}
+      />
+      <DialogDeleteLocal
+        openDialogDelete={openDialogDelete}
+        handleCloseDialogDelete={handleCloseDialogDelete}
+        line={line}
       />
       <div className="flex-1 overflow-auto relative z-10">
         <Header title="Cadastro de Locais" />
@@ -126,7 +159,7 @@ const CreateLocal = () => {
                 placeholder="Pesquisar"
                 className="bg-gray-700 text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <Search
                 className="absolute left-3 top-2.5 text-gray-400"
@@ -150,13 +183,13 @@ const CreateLocal = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     <button
                       className="text-indigo-400 hover:text-indigo-300 mr-2"
-                      // onClick={() => handleOpenDialogEdit(item)}
+                      onClick={() => handleOpenDialogEdit(item)}
                     >
                       <Edit size={18} />
                     </button>
                     <button
                       className="text-red-400 hover:text-red-300"
-                      // onClick={() => handleOpenDialogDelete(item)}
+                      onClick={() => handleOpenDialogDelete(item)}
                     >
                       <Trash2 size={18} />
                     </button>
@@ -183,6 +216,6 @@ const CreateLocal = () => {
         </main>
       </div>
     </>
-  )
-}
-export default CreateLocal
+  );
+};
+export default CreateLocal;

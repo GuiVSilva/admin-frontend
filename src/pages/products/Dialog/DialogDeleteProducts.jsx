@@ -3,37 +3,37 @@ import {
   DialogFooter,
   DialogHeader,
   IconButton,
-  Typography
-} from '@material-tailwind/react'
-import { Form, Formik } from 'formik'
-import { X } from 'lucide-react'
-import { Button } from '../../../components/Button'
-import { toast } from 'react-toastify'
-import { useState } from 'react'
+  Typography,
+} from "@material-tailwind/react";
+import { Form, Formik } from "formik";
+import { X } from "lucide-react";
+import { Button } from "../../../components/Button";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 export const DialogDeleteProducts = ({
   openDialogDelete,
   handleCloseDialogDelete,
-  line
+  line,
 }) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
-    toast.info('Processando, aguarde um momento!')
-    setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    console.log('id do produto', line.id)
-    const isSuccess = true
+    toast.info("Processando, aguarde um momento!");
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log("id do produto", line.id);
+    const isSuccess = true;
 
     if (isSuccess) {
-      toast.success('Produto excluido com sucesso!')
-      setIsLoading(false)
-      handleCloseDialogDelete()
+      toast.success("Produto excluido com sucesso!");
+      setIsLoading(false);
+      handleCloseDialogDelete();
     } else {
-      toast.error('Falha ao excluir produto!')
-      setIsLoading(false)
+      toast.error("Falha ao excluir produto!");
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog
@@ -82,5 +82,5 @@ export const DialogDeleteProducts = ({
         </Form>
       </Formik>
     </Dialog>
-  )
-}
+  );
+};
