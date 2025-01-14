@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import Header from "../../../components/Header";
-import StatCard from "../../../components/StatCard";
+// import StatCard from "../../../components/StatCard";
 import Table from "../../../components/Table";
 import { motion } from "framer-motion";
 import {
-  AlertTriangle,
-  DollarSign,
+  // AlertTriangle,
+  // DollarSign,
   Edit,
-  Package,
+  // Package,
   Plus,
-  Scale,
+  // Scale,
   Search,
   Trash2,
 } from "lucide-react";
@@ -19,46 +19,26 @@ import Pagination from "../../../components/Pagination";
 import DialogCreateLocal from "./Dialog/DialogCreateLocal";
 
 const headers = [
-  { label: "Nome do Produto", key: "name" },
-  { label: "Marca", key: "mark" },
   { label: "Descrição", key: "description" },
-  { label: "Valor de custo", key: "cost_price" },
-  { label: "Valor de venda", key: "sale_price" },
   { label: "Ações", key: "actions" },
 ];
 
 const data = [
   {
     id: 1,
-    name: "Produto A",
-    mark: "Marca 1",
-    description: "Celular",
-    cost_price: "R$ 1000,00",
-    sale_price: "R$ 2000,00",
+    name: "Local A",
   },
   {
     id: 2,
-    name: "Produto B",
-    mark: "Marca 2",
-    description: "TV",
-    cost_price: "R$ 1500,00",
-    sale_price: "R$ 3000,00",
+    name: "Local B",
   },
   {
     id: 3,
-    name: "Produto C",
-    mark: "Marca 3",
-    description: "Fone",
-    cost_price: "R$ 100,00",
-    sale_price: "R$ 250,00",
+    name: "Local C",
   },
   {
     id: 4,
-    name: "Produto D",
-    mark: "Marca 4",
-    description: "Mouse",
-    cost_price: "R$ 50,00",
-    sale_price: "R$ 150,00",
+    name: "Local D",
   },
 ];
 
@@ -96,8 +76,8 @@ const CreateLocal = () => {
       <div className="flex-1 overflow-auto relative z-10">
         <Header title="Cadastro de Locais" />
 
-        <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
-          <motion.div
+        <main className="max-w-7xl mx-auto py-20 px-4 lg:px-8" >
+          {/* <motion.div
             className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -127,7 +107,7 @@ const CreateLocal = () => {
               value="R$ 2000.00"
               color="#10B981"
             />
-          </motion.div>
+          </motion.div> */}
 
           <div className="flex justify-between items-center mb-4">
             {/* Botão Cadastrar */}
@@ -136,7 +116,7 @@ const CreateLocal = () => {
               onClick={handleOpenDialogRegister}
             >
               <Plus size={18} className="mr-2" />
-              Cadastrar Produto
+              Cadastrar Local
             </button>
 
             {/* Campo de Pesquisa */}
@@ -166,18 +146,6 @@ const CreateLocal = () => {
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {item.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.mark}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.description}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.cost_price}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.sale_price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     <button
