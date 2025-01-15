@@ -55,12 +55,12 @@ const MovimentationStock = () => {
           </motion.div>
 
           <div className="flex gap-6 items-center mb-4">
-            <Button type="button" className={theme.button.success}>
+            <Button type="button" className={theme.button.success} size="lg">
               <ArrowRightLeft size={18} className="mr-2" />
               Movimentar Estoque
             </Button>
 
-            <Button type="button" className={theme.button.gray}>
+            <Button type="button" className={theme.button.gray} size="lg">
               <Plus size={18} className="mr-2" />
               Mínino Estoque
             </Button>

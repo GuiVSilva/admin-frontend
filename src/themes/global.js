@@ -4,12 +4,12 @@ const theme = {
   },
   button: {
     success:
-      "flex items-center bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800",
+      "flex items-center  justify-center bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800",
     error:
-      "flex items-center bg-red-800 text-white px-4 py-2 rounded-lg hover:bg-red-900 px-6",
+      "flex items-center  justify-center bg-red-800 text-white px-4 py-2 rounded-lg hover:bg-red-900 px-6",
     warning:
-      "flex items-center bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700",
-    gray: "flex items-center bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 px-6",
+      "flex items-center  justify-center bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700",
+    gray: "flex items-center  justify-center bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 px-6",
   },
 };
 export default theme;

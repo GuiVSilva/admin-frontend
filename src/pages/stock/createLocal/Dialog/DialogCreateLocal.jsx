@@ -4,6 +4,7 @@ import { Typography } from "@material-tailwind/react";
 import { Input } from "../../../../components/Input";
 import { Button } from "../../../../components/Button";
 import { useState } from "react";
+import theme from "../../../../themes/global";
 
 export const DialogCreateLocal = ({ open, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,16 +41,18 @@ export const DialogCreateLocal = ({ open, onClose }) => {
         <Dialog.Actions>
           <Button
             type="submit"
-            className="bg-green-700 text-white hover:bg-green-800"
+            className={theme.button.success}
             loading={isLoading}
+            size="lg"
           >
             Salvar
           </Button>
           <Button
             type="button"
-            className="ml-4 bg-gray-600 text-white hover:bg-gray-700"
+            className={theme.button.gray}
             onClick={onClose}
             loading={isLoading}
+            size="lg"
           >
             Cancelar
           </Button>
