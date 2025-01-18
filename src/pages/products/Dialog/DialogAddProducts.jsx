@@ -1,12 +1,6 @@
-import {
-  IconButton,
-  Typography,
-  Dialog,
-  DialogBody,
-  DialogHeader,
-  DialogFooter,
-} from "@material-tailwind/react";
-import { X } from "lucide-react";
+import { Typography } from "@material-tailwind/react";
+
+import theme from "../../../themes/global";
 
 import { Input } from "../../../components/Input";
 import { TextArea } from "../../../components/TextArea";
@@ -15,6 +9,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import Dialog from "../../../components/Dialog";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("O nome é obrigatório"),
@@ -51,21 +46,9 @@ export const DialogAddProducts = ({
     <Dialog
       size="sm"
       open={openDialogRegister}
-      className="p-4 bg-gray-800 text-gray-300 rounded-lg shadow-lg"
+      onClose={handleCloseDialogRegister}
     >
-      <DialogHeader className="relative m-0 block border-b border-gray-700 pb-2">
-        <Typography variant="h4" className="text-gray-100">
-          Dados do Produto
-        </Typography>
-        <IconButton
-          size="sm"
-          variant="text"
-          className="!absolute right-3.5 top-3.5 text-gray-300 hover:text-gray-100"
-          onClick={handleCloseDialogRegister}
-        >
-          <X className="h-4 w-4 stroke-2" />
-        </IconButton>
-      </DialogHeader>
+      <Dialog.Title>Dados do Produto</Dialog.Title>
       <Formik
         initialValues={{
           name: "",
@@ -78,7 +61,7 @@ export const DialogAddProducts = ({
         onSubmit={handleSubmit}
       >
         <Form>
-          <DialogBody className="space-y-4 pb-6">
+          <Dialog.Content>
             <div>
               <Typography
                 variant="small"
@@ -205,24 +188,24 @@ export const DialogAddProducts = ({
                 className="text-red-500 text-sm"
               />
             </div>
-          </DialogBody>
-          <DialogFooter className="border-t border-gray-700 pt-4">
+          </Dialog.Content>
+          <Dialog.Actions>
             <Button
               type="submit"
-              className="bg-green-700 text-white hover:bg-green-800"
+              className={theme.button.success}
               loading={isLoading}
             >
               Salvar
             </Button>
             <Button
               type="button"
-              className="ml-4 bg-gray-600 text-white hover:bg-gray-700"
+              className={theme.button.gray}
               onClick={handleCloseDialogRegister}
               loading={isLoading}
             >
               Cancelar
             </Button>
-          </DialogFooter>
+          </Dialog.Actions>
         </Form>
       </Formik>
     </Dialog>

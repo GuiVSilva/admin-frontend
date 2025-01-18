@@ -13,10 +13,25 @@ import {
   ArrowRightLeft,
 } from "lucide-react";
 import theme from "../../../themes/global";
+import DialogMovimentation from "./Dialogs/DialogMovimentation";
+import { useState } from "react";
 
 const MovimentationStock = () => {
+  const [openDialogMovimentation, setOpenDialogMovimentation] = useState(false);
+
+  const handleOpenDialogMovimentation = () => {
+    setOpenDialogMovimentation(true);
+  };
+
+  const handleCloseDialogMovimentation = () => {
+    setOpenDialogMovimentation(false);
+  };
   return (
     <>
+      <DialogMovimentation
+        open={openDialogMovimentation}
+        onClose={handleCloseDialogMovimentation}
+      />
       <div className="flex-1 overflow-auto relative z-10">
         <Header title="Movimentação de Estoque" />
 
@@ -55,7 +70,12 @@ const MovimentationStock = () => {
           </motion.div>
 
           <div className="flex gap-6 items-center mb-4">
-            <Button type="button" className={theme.button.success} size="lg">
+            <Button
+              type="button"
+              className={theme.button.success}
+              size="lg"
+              onClick={() => handleOpenDialogMovimentation()}
+            >
               <ArrowRightLeft size={18} className="mr-2" />
               Movimentar Estoque
             </Button>
