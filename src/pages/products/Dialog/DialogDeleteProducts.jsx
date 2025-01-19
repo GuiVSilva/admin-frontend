@@ -1,86 +1,64 @@
-import {
-  Dialog,
-  DialogFooter,
-  DialogHeader,
-  IconButton,
-  Typography,
-} from "@material-tailwind/react";
-import { Form, Formik } from "formik";
-import { X } from "lucide-react";
-import { Button } from "@/components";
-import { toast } from "react-toastify";
-import { useState } from "react";
+import { Form, Formik } from 'formik'
+import { Button, Dialog } from '@/components'
+import { toast } from 'react-toastify'
+import { useState } from 'react'
+import { Typography } from '@material-tailwind/react'
+import theme from '../../../themes/global'
 
 export const DialogDeleteProducts = ({
   openDialogDelete,
   handleCloseDialogDelete,
-  line,
+  line
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async () => {
-    toast.info("Processando, aguarde um momento!");
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("id do produto", line.id);
-    const isSuccess = true;
+    toast.info('Processando, aguarde um momento!')
+    setIsLoading(true)
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    console.log('id do produto', line.id)
+    const isSuccess = true
 
     if (isSuccess) {
-      toast.success("Produto excluido com sucesso!");
-      setIsLoading(false);
-      handleCloseDialogDelete();
+      toast.success('Produto excluido com sucesso!')
+      setIsLoading(false)
+      handleCloseDialogDelete()
     } else {
-      toast.error("Falha ao excluir produto!");
-      setIsLoading(false);
+      toast.error('Falha ao excluir produto!')
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
-    <Dialog
-      size="sm"
-      open={openDialogDelete}
-      className="p-6 bg-gray-800 text-gray-300 rounded-lg shadow-lg"
-    >
-      <DialogHeader className="relative border-b border-gray-700 pb-2 text-center">
-        <Typography variant="h4" className="text-gray-100">
-          Excluir Produto
-        </Typography>
-        <IconButton
-          size="sm"
-          variant="text"
-          className="!absolute right-3.5 top-3.5 text-gray-300 hover:text-gray-100"
-          onClick={handleCloseDialogDelete}
-        >
-          <X className="h-4 w-4 stroke-2" />
-        </IconButton>
-      </DialogHeader>
+    <Dialog size="sm" open={openDialogDelete} onClose={handleCloseDialogDelete}>
+      <Dialog.Title>Excluir Produto</Dialog.Title>
       <Formik initialValues={{}} onSubmit={handleSubmit}>
         <Form>
-          <div className="mt-4 text-center pt-10">
+          <div className="mb-10 text-center pt-10">
             <Typography variant="h5" className="text-gray-300">
               Tem certeza que deseja excluir o produto?
             </Typography>
           </div>
 
-          <DialogFooter className="mt-6 flex justify-center gap-4">
+          <Dialog.Actions>
             <Button
               type="submit"
-              className="bg-red-800 text-white hover:bg-red-900 px-6"
+              className={theme.button.error}
               loading={isLoading}
             >
               Excluir
             </Button>
             <Button
               type="button"
-              className="bg-gray-600 text-white hover:bg-gray-700 px-6"
+              className={theme.button.gray}
               onClick={handleCloseDialogDelete}
               loading={isLoading}
             >
               Cancelar
             </Button>
-          </DialogFooter>
+          </Dialog.Actions>
         </Form>
       </Formik>
     </Dialog>
-  );
-};
+  )
+}

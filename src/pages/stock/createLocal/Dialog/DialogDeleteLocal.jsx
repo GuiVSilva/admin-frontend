@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import { Typography } from "@material-tailwind/react";
-import { Button, Dialog } from "@/components";
-import { useState } from "react";
+import { Form, Formik } from 'formik'
+import { Typography } from '@material-tailwind/react'
+import { Button, Dialog } from '@/components'
+import { useState } from 'react'
 
 export const DialogDeleteLocal = ({
   openDialogDelete,
   handleCloseDialogDelete,
-  line,
+  line
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = async (values) => {
-    setIsLoading(true);
-    console.log(values);
-  };
+  const handleSubmit = async values => {
+    setIsLoading(true)
+    console.log(values)
+  }
   return (
     <>
       <Dialog
@@ -25,7 +25,7 @@ export const DialogDeleteLocal = ({
         <Dialog.Content>
           <Formik initialValues={{ local: line?.name }} onSubmit={handleSubmit}>
             <Form>
-              <div className="mt-4 text-center pt-10">
+              <div className="mb-10 text-center pt-10">
                 <Typography variant="h5" className="text-gray-300">
                   Tem certeza que deseja excluir o local?
                 </Typography>
@@ -52,5 +52,5 @@ export const DialogDeleteLocal = ({
         </Dialog.Actions>
       </Dialog>
     </>
-  );
-};
+  )
+}

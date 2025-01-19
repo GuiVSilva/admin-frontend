@@ -1,12 +1,12 @@
 import {
   Dialog as TailwindDialog,
   IconButton,
-  Typography,
-} from "@material-tailwind/react";
-import { X } from "lucide-react";
+  Typography
+} from '@material-tailwind/react'
+import { X } from 'lucide-react'
 
 // Componente principal
-const Dialog = ({ open, onClose, size = "sm", children }) => {
+const Dialog = ({ open, onClose, size = 'sm', children }) => {
   return (
     <TailwindDialog
       open={open}
@@ -20,13 +20,13 @@ const Dialog = ({ open, onClose, size = "sm", children }) => {
           className="!absolute right-3.5 top-3.5 text-gray-300 hover:text-gray-100"
           onClick={onClose}
         >
-          <X className="h-4 w-4 stroke-2" />
+          <X className="h-10 w-4 stroke-2 mb-5" />
         </IconButton>
         {children}
       </div>
     </TailwindDialog>
-  );
-};
+  )
+}
 
 // Subcomponente para o título
 Dialog.Title = ({ children }) => (
@@ -35,24 +35,24 @@ Dialog.Title = ({ children }) => (
       {children}
     </Typography>
   </div>
-);
-Dialog.Title.displayName = "Dialog.Title";
+)
+Dialog.Title.displayName = 'Dialog.Title'
 
 // Subcomponente para o conteúdo
 Dialog.Content = ({ children }) => (
   <div className="space-y-4 pb-6">{children}</div>
-);
-Dialog.Content.displayName = "Dialog.Content";
+)
+Dialog.Content.displayName = 'Dialog.Content'
 
 // Subcomponente para as ações
 Dialog.Actions = ({ children }) => (
   <div className="flex justify-center space-x-4 border-t border-gray-700 pt-4">
     {children}
   </div>
-);
-Dialog.Actions.displayName = "Dialog.Actions";
+)
+Dialog.Actions.displayName = 'Dialog.Actions'
 
 // Definir o displayName do componente principal
-Dialog.displayName = "Dialog";
+Dialog.displayName = 'Dialog'
 
-export default Dialog;
+export default Dialog

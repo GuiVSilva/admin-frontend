@@ -1,13 +1,14 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom'
 
-import { ToastContainer } from "react-toastify";
-import Sidebar from "./components/Sidebar";
-import OverviewPage from "./pages/dashboard/OverviewPage";
-import RegisterProducts from "./pages/products/RegisterProducts";
-import LoginScreen from "./pages/login/LoginScreen";
-import RegisterClients from "./pages/clients/register-client";
-import CreateLocal from "./pages/stock/createLocal/CreateLocal";
-import MovimentationStock from "./pages/stock/movimentationStock/MovimentationStock";
+import { ToastContainer } from 'react-toastify'
+import Sidebar from './components/Sidebar'
+import OverviewPage from './pages/dashboard/OverviewPage'
+import RegisterProducts from './pages/products/RegisterProducts'
+import LoginScreen from './pages/login/LoginScreen'
+import RegisterClients from './pages/clients/register-client'
+import CreateLocal from './pages/stock/createLocal/CreateLocal'
+import MovimentationStock from './pages/stock/movimentationStock/MovimentationStock'
+import { GenerateOrders } from './pages/orders/generateOrders'
 
 const LayoutWithSidebar = () => (
   <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
@@ -25,18 +26,18 @@ const LayoutWithSidebar = () => (
         style={{ zIndex: 99999 }}
         toastClassName={({ type }) => {
           const baseStyle =
-            " flex flex-items items-center w-full h-20 text-white rounded-lg py-2 px-4";
-          if (type === "success") {
-            return `${baseStyle} bg-green-700`;
+            ' flex flex-items items-center w-full h-20 text-white rounded-lg py-2 px-4'
+          if (type === 'success') {
+            return `${baseStyle} bg-green-700`
           }
-          if (type === "error") {
-            return `${baseStyle} bg-red-800`;
+          if (type === 'error') {
+            return `${baseStyle} bg-red-800`
           }
-          if (type === "info") {
-            return `${baseStyle} bg-blue-700`;
+          if (type === 'info') {
+            return `${baseStyle} bg-blue-700`
           }
-          if (type === "warning") {
-            return `${baseStyle} bg-yellow-600`;
+          if (type === 'warning') {
+            return `${baseStyle} bg-yellow-600`
           }
         }}
       />
@@ -52,10 +53,11 @@ const LayoutWithSidebar = () => (
           path="/stock/movimentation-stock"
           element={<MovimentationStock />}
         />
+        <Route path="/orders/generate-orders" element={<GenerateOrders />} />
       </Routes>
     </div>
   </div>
-);
+)
 
 function App() {
   return (
@@ -66,7 +68,7 @@ function App() {
       {/* Layout Principal com Sidebar */}
       <Route path="/*" element={<LayoutWithSidebar />} />
     </Routes>
-  );
+  )
 }
 
-export default App;
+export default App

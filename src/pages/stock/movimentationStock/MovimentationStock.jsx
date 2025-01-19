@@ -1,5 +1,5 @@
 // import Table from "../../../components/Table";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 import {
   AlertTriangle,
   Package,
@@ -8,74 +8,74 @@ import {
   Plus,
   ArrowRightLeft,
   Search,
-  ViewIcon,
-} from "lucide-react";
-import theme from "../../../themes/global";
-import DialogMovimentation from "./Dialogs/DialogMovimentation";
-import { useState } from "react";
-import DialogRegisterMinStock from "./Dialogs/DialogRegisterMinStock";
-import { Pagination, Table, Header, StatCard, Button } from "@/components";
+  Eye
+} from 'lucide-react'
+import theme from '../../../themes/global'
+import DialogMovimentation from './Dialogs/DialogMovimentation'
+import { useState } from 'react'
+import DialogRegisterMinStock from './Dialogs/DialogRegisterMinStock'
+import { Pagination, Table, Header, StatCard, Button } from '@/components'
 
 const headers = [
-  { label: "Descrição", key: "description" },
-  { label: "Quantidade", key: "quantity" },
-  { label: "Visualizar", key: "view" },
-];
+  { label: 'Descrição', key: 'description' },
+  { label: 'Quantidade', key: 'quantity' },
+  { label: 'Visualizar', key: 'view' }
+]
 
 const data = [
   {
     id: 1,
-    name: "Local A",
-    quantity: 10,
+    name: 'Local A',
+    quantity: 10
   },
   {
     id: 2,
-    name: "Local B",
-    quantity: 10,
+    name: 'Local B',
+    quantity: 10
   },
   {
     id: 3,
-    name: "Local C",
-    quantity: 10,
+    name: 'Local C',
+    quantity: 10
   },
   {
     id: 4,
-    name: "Local D",
-    quantity: 10,
-  },
-];
+    name: 'Local D',
+    quantity: 10
+  }
+]
 
 const MovimentationStock = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [openDialogMovimentation, setOpenDialogMovimentation] = useState(false);
-  const [openDialogMinStock, setOpenDialogMinStock] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [openDialogMovimentation, setOpenDialogMovimentation] = useState(false)
+  const [openDialogMinStock, setOpenDialogMinStock] = useState(false)
 
-  const itemsPerPage = 3;
-  const filteredData = data?.filter((item) =>
+  const itemsPerPage = 3
+  const filteredData = data?.filter(item =>
     item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
 
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
+  )
 
   const handleOpenDialogMovimentation = () => {
-    setOpenDialogMovimentation(true);
-  };
+    setOpenDialogMovimentation(true)
+  }
 
   const handleCloseDialogMovimentation = () => {
-    setOpenDialogMovimentation(false);
-  };
+    setOpenDialogMovimentation(false)
+  }
 
   const handleOpenDialogMinStock = () => {
-    setOpenDialogMinStock(true);
-  };
+    setOpenDialogMinStock(true)
+  }
 
   const handleCloseDialogMinStock = () => {
-    setOpenDialogMinStock(false);
-  };
+    setOpenDialogMinStock(false)
+  }
 
   return (
     <>
@@ -152,7 +152,7 @@ const MovimentationStock = () => {
                 placeholder="Pesquisar"
                 className="bg-gray-700 text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
               <Search
                 className="absolute left-3 top-2.5 text-gray-400"
@@ -181,7 +181,7 @@ const MovimentationStock = () => {
                       className="text-indigo-400 hover:text-indigo-300 mr-2"
                       // onClick={() => handleOpenDialogEdit(item)}
                     >
-                      <ViewIcon size={18} />
+                      <Eye size={18} />
                     </button>
                   </td>
                 </motion.tr>
@@ -206,6 +206,6 @@ const MovimentationStock = () => {
         </main>
       </div>
     </>
-  );
-};
-export default MovimentationStock;
+  )
+}
+export default MovimentationStock

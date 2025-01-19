@@ -1,17 +1,10 @@
-import {
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-  IconButton,
-  Typography
-} from '@material-tailwind/react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import { X } from 'lucide-react'
-import { Button, TextArea, Input  } from "@/components";
+import { Button, TextArea, Input, Dialog } from '@/components'
 import { useState } from 'react'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
+import { Typography } from '@material-tailwind/react'
+import theme from '../../../themes/global'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
@@ -47,24 +40,8 @@ export const DialogEditProducts = ({
   }
 
   return (
-    <Dialog
-      size="sm"
-      open={openDialogEdit}
-      className="p-4 bg-gray-800 text-gray-300 rounded-lg shadow-lg -z-10"
-    >
-      <DialogHeader className="relative m-0 block border-b border-gray-700 pb-2">
-        <Typography variant="h4" className="text-gray-100">
-          Editar Produto
-        </Typography>
-        <IconButton
-          size="sm"
-          variant="text"
-          className="!absolute right-3.5 top-3.5 text-gray-300 hover:text-gray-100"
-          onClick={handleCloseDialogEdit}
-        >
-          <X className="h-4 w-4 stroke-2" />
-        </IconButton>
-      </DialogHeader>
+    <Dialog size="sm" open={openDialogEdit} onClose={handleCloseDialogEdit}>
+      <Dialog.Title>Editar Produto</Dialog.Title>
       <Formik
         initialValues={{
           name: line.name,
@@ -77,7 +54,7 @@ export const DialogEditProducts = ({
         onSubmit={handleSubmit}
       >
         <Form>
-          <DialogBody className="space-y-4 pb-6">
+          <Dialog.Content>
             <div>
               <Typography
                 variant="small"
@@ -162,26 +139,6 @@ export const DialogEditProducts = ({
                 />
               </div>
             </div>
-            {/* <div>
-                    <Typography
-                      variant="small"
-                      className="mb-2 text-left font-medium text-gray-400"
-                    >
-                      Marca
-                    </Typography>
-                    <Select
-                      name="select_sub_problem"
-                      label="Sub Problema"
-                      options={options}
-                      loading={isLoading}
-                    />
-      
-                    <ErrorMessage
-                      name="mark"
-                      component="div"
-                      className="text-red-500 text-sm"
-                    />
-                  </div> */}
             <div>
               <Typography
                 variant="small"
@@ -203,24 +160,24 @@ export const DialogEditProducts = ({
                 className="text-red-500 text-sm"
               />
             </div>
-          </DialogBody>
-          <DialogFooter className="border-t border-gray-700 pt-4">
+          </Dialog.Content>
+          <Dialog.Actions>
             <Button
               type="submit"
-              className="bg-yellow-600 text-white hover:bg-yellow-700"
+              className={theme.button.warning}
               loading={isLoading}
             >
               Atualizar
             </Button>
             <Button
               type="button"
-              className="ml-4 bg-gray-600 text-white hover:bg-gray-700"
+              className={theme.button.gray}
               onClick={handleCloseDialogEdit}
               loading={isLoading}
             >
               Cancelar
             </Button>
-          </DialogFooter>
+          </Dialog.Actions>
         </Form>
       </Formik>
     </Dialog>
