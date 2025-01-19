@@ -1,7 +1,6 @@
 import { Form, Formik } from "formik";
-import Dialog from "../../../../components/Dialog";
 import { Typography } from "@material-tailwind/react";
-import { Button } from "../../../../components/Button";
+import { Button, Dialog } from "@/components";
 import { useState } from "react";
 
 export const DialogDeleteLocal = ({

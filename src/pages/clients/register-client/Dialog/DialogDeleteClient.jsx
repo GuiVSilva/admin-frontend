@@ -7,7 +7,7 @@ import {
 } from '@material-tailwind/react'
 import { Form, Formik } from 'formik'
 import { X } from 'lucide-react'
-import { Button } from '../../../../components/Button'
+import { Button } from '@/components'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 

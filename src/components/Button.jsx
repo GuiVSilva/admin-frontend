@@ -1,6 +1,6 @@
 import { Spinner } from "@material-tailwind/react";
 
-export const Button = ({
+const Button = ({
   children,
   className = "",
   loading = false,
@@ -38,3 +38,5 @@ export const Button = ({
     </button>
   );
 };
+
+export default Button

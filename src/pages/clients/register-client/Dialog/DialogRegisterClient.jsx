@@ -8,9 +8,8 @@ import {
 } from '@material-tailwind/react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { X } from 'lucide-react'
-import { Input } from '../../../../components/Input'
 import { useState } from 'react'
-import { Button } from '../../../../components/Button'
+import { Button, Input } from '@/components'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 

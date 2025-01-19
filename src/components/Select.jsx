@@ -1,7 +1,7 @@
 import { Spinner } from "@material-tailwind/react";
 import { Field } from "formik";
 
-export const Select = ({
+ const Select = ({
   id,
   name,
   options = [],
@@ -61,3 +61,4 @@ export const Select = ({
     </Field>
   );
 };
+export default Select

@@ -1,6 +1,5 @@
 import Header from '../../components/Header'
 import { motion } from 'framer-motion'
-import StatCard from '../../components/StatCard'
 import { ReceiptText, ShoppingBag, User, Zap } from 'lucide-react'
 import SalesOverviewChart from '../../components/charts/SalesOverviewChart'
 import BestSellingProductsChart from '../../components/charts/BestSellingProductsChart'
@@ -9,6 +8,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Spinner } from '@material-tailwind/react'
+import { StatCard } from '../../components'
 
 const OverviewPage = () => {
   const { isLoaded, userId } = useAuth()

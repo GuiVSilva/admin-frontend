@@ -1,8 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import Dialog from "../../../../components/Dialog";
 import { Typography } from "@material-tailwind/react";
-import { Input } from "../../../../components/Input";
-import { Button } from "../../../../components/Button";
+import { Button, Input, Dialog } from "@/components";
 import { useState } from "react";
 import theme from "../../../../themes/global";
 

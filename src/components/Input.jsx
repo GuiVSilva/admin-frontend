@@ -1,6 +1,6 @@
 import { Spinner } from "@material-tailwind/react";
 
-export const Input = ({
+const Input = ({
   id,
   name,
   value,
@@ -115,3 +115,4 @@ export const Input = ({
     </div>
   );
 };
+export default Input

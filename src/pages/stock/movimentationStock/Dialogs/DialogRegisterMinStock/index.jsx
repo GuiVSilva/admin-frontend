@@ -1,16 +1,14 @@
-import { Field, Form, Formik } from "formik";
-import { Typography } from "@material-tailwind/react";
-import { Button, Input, Select, Dialog } from "@/components";
-import theme from "../../../../../themes/global";
 
-const DialogMovimentation = ({ open, onClose }) => {
+import { Typography } from "@material-tailwind/react";
+import { Field, Form, Formik } from "formik";
+import { Button, Input, Select, Dialog } from "@/components";
+import theme from "@/themes/global";
+const DialogRegisterMinStock = ({ open, onClose }) => {
   const options = [{ label: "Produto A", value: 0 }];
-  const optionsLocal = [{ label: "Local A", valuel: 0 }];
   return (
     <>
-      <Dialog size="md" open={open} onClose={onClose}>
-        <Dialog.Title>Movimentar Estoque</Dialog.Title>
-
+      <Dialog open={open} onClose={onClose}>
+        <Dialog.Title>Minimo Por Produto</Dialog.Title>
         <Formik>
           {() => (
             <Form>
@@ -27,23 +25,14 @@ const DialogMovimentation = ({ open, onClose }) => {
                     </div>
 
                     <div className="w-full">
-                      <Typography>Locais</Typography>
-                      <Select
-                        name="select_local"
-                        label="Locall"
-                        options={optionsLocal}
+                      <Typography>Mínimo de Estoque</Typography>
+                      <Field
+                        name="quantity"
+                        type="number"
+                        placeholder="Quantidade"
+                        as={Input}
                       />
                     </div>
-                  </div>
-
-                  <div>
-                    <Typography>Quantidade</Typography>
-                    <Field
-                      name="quantity"
-                      placeholder="Quantidade"
-                      type="number"
-                      as={Input}
-                    />
                   </div>
                 </div>
               </Dialog.Content>
@@ -66,5 +55,4 @@ const DialogMovimentation = ({ open, onClose }) => {
     </>
   );
 };
-
-export default DialogMovimentation;
+export default DialogRegisterMinStock;

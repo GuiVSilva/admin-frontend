@@ -1,6 +1,6 @@
 import { Spinner } from '@material-tailwind/react'
 
-export const TextArea = ({
+ const TextArea = ({
   placeholder,
   rows = 3,
   className = '',
@@ -28,3 +28,4 @@ export const TextArea = ({
     {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
   </div>
 )
+export default TextArea

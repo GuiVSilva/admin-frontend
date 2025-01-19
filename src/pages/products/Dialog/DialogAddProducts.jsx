@@ -2,14 +2,11 @@ import { Typography } from "@material-tailwind/react";
 
 import theme from "../../../themes/global";
 
-import { Input } from "../../../components/Input";
-import { TextArea } from "../../../components/TextArea";
-import { Button } from "../../../components/Button";
+import { Button, TextArea, Input, Dialog } from "@/components";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import Dialog from "../../../components/Dialog";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("O nome é obrigatório"),
