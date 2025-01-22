@@ -15,6 +15,7 @@ import theme from '../../../themes/global'
 import Table from '../../../components/Table'
 import { useState } from 'react'
 import Pagination from '../../../components/Pagination'
+import { DialogRegisterOrder } from './Dialog/DialogRegisterOrder'
 
 const columns = [
   { label: 'Número', key: 'number' },
@@ -56,6 +57,7 @@ const data = [
 export const GenerateOrders = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [openDialogRegister, setOpenDialogRegister] = useState(false)
   const itemsPerPage = 3
 
   const filteredData = data?.filter(
@@ -69,8 +71,20 @@ export const GenerateOrders = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
+
+  const handleDialogRegister = () => {
+    setOpenDialogRegister(true)
+  }
+
+  const handleCloseDialogRegister = () => {
+    setOpenDialogRegister(false)
+  }
   return (
     <>
+      <DialogRegisterOrder
+        handleCloseDialogRegister={handleCloseDialogRegister}
+        openDialogRegister={openDialogRegister}
+      />
       <div className="flex-1 overflow-auto relative z-10">
         <Header title="Gerar Pedidos" />
 
@@ -108,7 +122,12 @@ export const GenerateOrders = () => {
             />
           </motion.div>
           <div className="flex justify-between items-center mb-4">
-            <Button type="button" className={theme.button.success} size="lg">
+            <Button
+              type="button"
+              className={theme.button.success}
+              size="lg"
+              onClick={handleDialogRegister}
+            >
               <Plus size={18} className="mr-2" />
               Adicionar Pedido
             </Button>
