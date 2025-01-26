@@ -19,7 +19,6 @@ import { DialogRegisterOrder } from './Dialog/DialogRegisterOrder'
 
 const columns = [
   { label: 'Número', key: 'number' },
-  { label: 'Vendedor', key: 'customer' },
   { label: 'Cliente', key: 'client' },
   { label: 'Valor', key: 'total' },
   { label: 'Status', key: 'status' },
@@ -30,7 +29,6 @@ const columns = [
 const data = [
   {
     number: '1',
-    customer: 'Vendendor 1',
     client: 'Cliente 1',
     total: 'R$ 235,40',
     status: 'Aprovado',
@@ -38,7 +36,6 @@ const data = [
   },
   {
     number: '2',
-    customer: 'Vendendor 2',
     client: 'Cliente 2',
     total: 'R$ 1000,00',
     status: 'Pendente',
@@ -46,7 +43,6 @@ const data = [
   },
   {
     number: '3',
-    customer: 'Vendendor 3',
     client: 'Cliente 3',
     total: 'R$ 550,25',
     status: 'Cancelado',
@@ -63,7 +59,7 @@ export const GenerateOrders = () => {
   const filteredData = data?.filter(
     item =>
       item?.number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item?.customer?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.client?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item?.status?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -158,9 +154,6 @@ export const GenerateOrders = () => {
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {item.number}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.customer}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {item.client}

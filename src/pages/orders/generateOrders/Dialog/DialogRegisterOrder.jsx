@@ -1,92 +1,170 @@
-import { Dialog, Button } from '@/components'
-import { ErrorMessage, Form, Formik } from 'formik'
-import CustomAutocomplete from '../../../../components/CustomAutocomplete'
-import { Typography } from '@material-tailwind/react'
 import { useState } from 'react'
+import { Dialog, Select, Input, Button } from '@/components'
+import { Field, Form, Formik } from 'formik'
+import Table from '../../../../components/Table'
+import { motion } from 'framer-motion'
+import { ArrowRight, CirclePlus, Trash2 } from 'lucide-react'
 import theme from '../../../../themes/global'
 import { toast } from 'react-toastify'
+import { DialogClientOrder } from './DialogClientOrder'
+
+const columns = [
+  { label: 'Produto', key: 'name_product' },
+  { label: 'Quantidade', key: 'qtd_product' }
+]
+
+const options = [
+  { label: 'Produto A', value: 0 },
+  { label: 'Produto B', value: 1 }
+]
 
 export const DialogRegisterOrder = ({
   openDialogRegister,
   handleCloseDialogRegister
 }) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const options = [
-    { label: 'Cliente 1', value: '1' },
-    { label: 'Cliente 2', value: '2' },
-    { label: 'Cliente 3', value: '3' },
-    { label: 'Cliente 4', value: '4' },
-    { label: 'Cliente 5', value: '5' },
-    { label: 'Cliente 6', value: '6' }
-  ]
+  const [tableRows, setTableRows] = useState([
+    { id: 1, product: '', quantity: '' }
+  ])
+  const [openDialog, setOpenDialog] = useState(false)
 
-  const handleSubmit = async values => {
-    setIsLoading(true)
-    console.log('values', values.select_clients.label)
-    console.log('values', values.select_clients.value)
-    toast.info('Processando, aguarde um momento!')
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    const isSuccess = true
-
-    if (isSuccess) {
-      toast.success('Pedido adicionado com sucesso!')
-      setIsLoading(false)
-      handleCloseDialogRegister()
-    } else {
-      toast.error('Falha ao adicionar pedido!')
-      setIsLoading(false)
-    }
+  const handleAddRow = () => {
+    setTableRows(prevRows => [
+      ...prevRows,
+      { id: prevRows.length + 1, product: '', quantity: '' }
+    ])
   }
+
+  const handleDeleteRow = id => {
+    if (tableRows.length === 1) {
+      toast.error('Tem que existir pelo menos 1 item!')
+      return
+    }
+    setTableRows(prevRows => prevRows.filter(row => row.id !== id))
+  }
+
+  const handleProductChange = (id, value) => {
+    setTableRows(prevRows =>
+      prevRows.map(row => (row.id === id ? { ...row, product: value } : row))
+    )
+  }
+
+  const handleQuantityChange = (id, value) => {
+    setTableRows(prevRows =>
+      prevRows.map(row => (row.id === id ? { ...row, quantity: value } : row))
+    )
+  }
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true)
+    handleCloseDialogRegister()
+  }
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+    setTableRows([{ id: 1, product: '', quantity: '' }])
+  }
+
   return (
     <>
+      <DialogClientOrder
+        handleCloseDialog={handleCloseDialog}
+        openDialog={openDialog}
+        tableRows={tableRows}
+      />
       <Dialog
-        size="sm"
+        size="lg"
         open={openDialogRegister}
-        onClose={handleCloseDialogRegister}
+        onClose={() =>
+          handleCloseDialogRegister(
+            setTableRows([{ id: 1, product: '', quantity: '' }])
+          )
+        }
       >
         <Dialog.Title>Criar Pedido</Dialog.Title>
-        <Formik initialValues={{ select_clients: '' }} onSubmit={handleSubmit}>
+        <Formik initialValues={{}}>
           <Form>
             <Dialog.Content>
-              <div>
-                <Typography
-                  variant="small"
-                  className="mb-2 text-left font-medium text-gray-400"
-                >
-                  Nome do Cliente
-                </Typography>
-                <CustomAutocomplete
-                  name="select_clients"
-                  options={options}
-                  label="Selecione um cliente"
-                  placeholder="Digite o nome do cliente"
-                  loading={isLoading}
-                  size="lg"
-                />
-                <ErrorMessage
-                  name="select_clients"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+              <div
+                className={`${
+                  tableRows.length > 6 ? 'max-h-80 overflow-y-auto' : ''
+                }`}
+                style={{
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: 'transparent transparent',
+                  padding: '20px'
+                }}
+              >
+                <Table name="Produtos do pedido" headers={columns}>
+                  {tableRows.map(row => (
+                    <motion.tr
+                      key={row.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                        <Select
+                          name={`rows[${row.id}].product`}
+                          label="Produto"
+                          options={options}
+                          size="lg"
+                          onChange={e =>
+                            handleProductChange(row.id, e.target.value)
+                          }
+                        />
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                        <Field
+                          name={`rows[${row.id}].quantity`}
+                          placeholder="Quantidade"
+                          type="number"
+                          as={Input}
+                          size="md"
+                          onChange={e =>
+                            handleQuantityChange(row.id, e.target.value)
+                          }
+                        />
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                        <button
+                          type="button"
+                          className="text-green-500 hover:text-green-600 mr-2"
+                          onClick={handleAddRow}
+                        >
+                          <CirclePlus size={18} />
+                        </button>
+                        <button
+                          type="button"
+                          className="text-red-400 hover:text-red-300 mr-2"
+                          onClick={() => handleDeleteRow(row.id)}
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </Table>
               </div>
             </Dialog.Content>
             <Dialog.Actions>
               <Button
-                type="submit"
-                className={theme.button.success}
-                loading={isLoading}
-                
-              >
-                Salvar
-              </Button>
-              <Button
                 type="button"
-                className={theme.button.gray}
-                onClick={handleCloseDialogRegister}
-                loading={isLoading}
+                className={theme.button.error}
+                onClick={() =>
+                  handleCloseDialogRegister(
+                    setTableRows([{ id: 1, product: '', quantity: '' }])
+                  )
+                }
               >
                 Cancelar
+              </Button>
+              <Button
+                type="submit"
+                className={theme.button.blue}
+                onClick={handleOpenDialog}
+              >
+                Prosseguir
+                <ArrowRight className="ml-3" size={18} />
               </Button>
             </Dialog.Actions>
           </Form>
