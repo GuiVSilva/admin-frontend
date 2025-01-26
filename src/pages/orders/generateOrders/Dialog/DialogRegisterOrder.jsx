@@ -56,7 +56,7 @@ export const DialogRegisterOrder = ({
 
   const handleOpenDialog = () => {
     setOpenDialog(true)
-    handleCloseDialogRegister()
+    // handleCloseDialogRegister()
   }
 
   const handleCloseDialog = () => {
