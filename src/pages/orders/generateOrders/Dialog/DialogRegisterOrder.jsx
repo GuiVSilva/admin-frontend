@@ -62,6 +62,7 @@ export const DialogRegisterOrder = ({
   const handleCloseDialog = () => {
     setOpenDialog(false)
     setTableRows([{ id: 1, product: '', quantity: '' }])
+    handleCloseDialogRegister()
   }
 
   return (
