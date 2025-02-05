@@ -16,9 +16,11 @@ import Table from '../../../components/Table'
 import { useState } from 'react'
 import Pagination from '../../../components/Pagination'
 import { DialogRegisterOrder } from './Dialog/DialogRegisterOrder'
+import { DialogDeleteOrder } from './Dialog/DialogDeleteOrder'
+import { DialogEditOrder } from './Dialog/DialogEditOrder'
 
 const columns = [
-  { label: 'Número', key: 'number' },
+  { label: 'Número', key: 'id' },
   { label: 'Cliente', key: 'client' },
   { label: 'Valor', key: 'total' },
   { label: 'Status', key: 'status' },
@@ -28,21 +30,21 @@ const columns = [
 
 const data = [
   {
-    number: '1',
+    id: '1',
     client: 'Cliente 1',
     total: 'R$ 235,40',
     status: 'Aprovado',
     date: '19/01/2025'
   },
   {
-    number: '2',
+    id: '2',
     client: 'Cliente 2',
     total: 'R$ 1000,00',
     status: 'Pendente',
     date: '19/01/2025'
   },
   {
-    number: '3',
+    id: '3',
     client: 'Cliente 3',
     total: 'R$ 550,25',
     status: 'Cancelado',
@@ -54,11 +56,14 @@ export const GenerateOrders = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [openDialogRegister, setOpenDialogRegister] = useState(false)
+  const [openDialogDelete, setOpenDialogDelete] = useState(false)
+  const [openDialogEdit, setOpenDialogEdit] = useState(false)
+  const [line, setLine] = useState({})
   const itemsPerPage = 3
 
   const filteredData = data?.filter(
     item =>
-      item?.number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item?.client?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item?.status?.toLowerCase().includes(searchTerm.toLowerCase())
   )
@@ -75,8 +80,36 @@ export const GenerateOrders = () => {
   const handleCloseDialogRegister = () => {
     setOpenDialogRegister(false)
   }
+
+  const handleOpenDialogDelete = item => {
+    setOpenDialogDelete(true)
+    setLine(item)
+  }
+
+  const handleCloseDialogDelete = () => {
+    setOpenDialogDelete(false)
+  }
+
+  const handleOpenDialogEdit = item => {
+    setOpenDialogEdit(true)
+    setLine(item)
+  }
+
+  const handleCloseDialogEdit = () => {
+    setOpenDialogEdit(false)
+  }
   return (
     <>
+      <DialogEditOrder
+        handleCloseDialogEdit={handleCloseDialogEdit}
+        openDialogEdit={openDialogEdit}
+        line={line}
+      />
+      <DialogDeleteOrder
+        handleCloseDialogDelete={handleCloseDialogDelete}
+        openDialogDelete={openDialogDelete}
+        line={line}
+      />
       <DialogRegisterOrder
         handleCloseDialogRegister={handleCloseDialogRegister}
         openDialogRegister={openDialogRegister}
@@ -153,7 +186,7 @@ export const GenerateOrders = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.number}
+                    {item.id}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {item.client}
@@ -183,10 +216,16 @@ export const GenerateOrders = () => {
                     <button className="text-gray-400 hover:text-gray-500  mr-2">
                       <Eye size={18} />
                     </button>
-                    <button className="text-red-400 hover:text-red-300 mr-2">
+                    <button
+                      className="text-red-400 hover:text-red-300 mr-2"
+                      onClick={() => handleOpenDialogDelete(item)}
+                    >
                       <Trash2 size={18} />
                     </button>
-                    <button className="text-indigo-400 hover:text-indigo-300 mr-2">
+                    <button
+                      className="text-indigo-400 hover:text-indigo-300 mr-2"
+                      onClick={() => handleOpenDialogEdit(item)}
+                    >
                       <Edit size={18} />
                     </button>
                   </td>

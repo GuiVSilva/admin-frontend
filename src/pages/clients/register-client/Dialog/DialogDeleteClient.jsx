@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { Typography } from '@material-tailwind/react'
 import theme from '../../../../themes/global'
+import { clientsService } from '../../../../services/clients'
 
 export const DialogDeleteClient = ({
   openDialogDelete,
@@ -13,17 +14,14 @@ export const DialogDeleteClient = ({
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async () => {
-    toast.info('Processando, aguarde um momento!')
     setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    console.log('id do cliente', line.id)
-    const isSuccess = true
-
-    if (isSuccess) {
+    try {
+      await clientsService.deleteClient({ id: line.id })
       toast.success('Cliente excluido com sucesso!')
       setIsLoading(false)
       handleCloseDialogDelete()
-    } else {
+    } catch (error) {
+      console.error(error)
       toast.error('Falha ao excluir cliente!')
       setIsLoading(false)
     }
