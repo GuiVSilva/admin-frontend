@@ -13,7 +13,6 @@ export const DialogDeleteOrder = ({
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async () => {
-    toast.info('Processando, aguarde um momento!')
     setIsLoading(true)
     await new Promise(resolve => setTimeout(resolve, 1000))
     console.log('id do pedido', line.id)
