@@ -9,6 +9,7 @@ import RegisterClients from './pages/clients/register-client'
 import CreateLocal from './pages/stock/createLocal/CreateLocal'
 import MovimentationStock from './pages/stock/movimentationStock/MovimentationStock'
 import { GenerateOrders } from './pages/orders/generateOrders'
+import TransferStock from './pages/stock/transferStock/TransferStock'
 
 const LayoutWithSidebar = () => (
   <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
@@ -54,6 +55,7 @@ const LayoutWithSidebar = () => (
           element={<MovimentationStock />}
         />
         <Route path="/orders/generate-orders" element={<GenerateOrders />} />
+        <Route path="/stock/transfer-stock" element={<TransferStock />} />
       </Routes>
     </div>
   </div>
