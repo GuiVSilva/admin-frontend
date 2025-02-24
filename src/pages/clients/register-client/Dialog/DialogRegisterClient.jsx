@@ -39,7 +39,12 @@ export const DialogRegisterClient = ({
       handleCloseDialogRegister()
     } catch (error) {
       console.log('error', error)
-      toast.error('Falha ao cadastrar cliente!')
+
+      toast.error(
+        error.response.data.message || 'Ocorreu um erro ao cadastrar Cliente'
+      )
+      setIsLoading(false)
+    } finally {
       setIsLoading(false)
     }
   }
