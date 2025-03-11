@@ -40,7 +40,9 @@ export const DialogEditClient = ({
       handleCloseDialogEdit()
     } catch (error) {
       console.log('error', error)
-      toast.error('Falha ao atualizar cliente!')
+      toast.error(
+        error.response.data.message || 'Ocorreu um erro ao cadastrar Cliente'
+      )
       setIsLoading(false)
     }
   }

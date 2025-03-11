@@ -1,14 +1,30 @@
 import Header from '../../../components/Header'
 import { motion } from 'framer-motion'
 import StatCard from '../../../components/StatCard'
-import { Edit, Plus, Search, Trash2, UserCheck, Users } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import {
+  Download,
+  Edit,
+  FileUp,
+  Plus,
+  Search,
+  Trash2,
+  UserCheck,
+  Users
+} from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import Table from '../../../components/Table'
+import { Button } from '@/components'
 import Pagination from '../../../components/Pagination'
 import { DialogRegisterClient } from './Dialog/DialogRegisterClient'
 import { DialogEditClient } from './Dialog/DialogEditClient'
 import { DialogDeleteClient } from './Dialog/DialogDeleteClient'
 import { clientsService } from '../../../services/clients'
+import theme from '../../../themes/global'
+import { readExcelFile } from '../../../utils/readExcelFile'
+import * as XLSX from 'xlsx'
+import { saveAs } from 'file-saver'
+import { toast } from 'react-toastify'
+import { useUser } from '@clerk/clerk-react'
 
 const headers = [
   { label: 'Nome', key: 'name' },
@@ -18,6 +34,7 @@ const headers = [
 ]
 
 const RegisterClients = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [openDialogRegister, setOpenRegister] = useState(false)
@@ -25,6 +42,8 @@ const RegisterClients = () => {
   const [openDialogDelete, setOpenDialogDelete] = useState(false)
   const [line, setLine] = useState([])
   const [clients, setClients] = useState([])
+  const fileInputRef = useRef(null)
+  const { user } = useUser()
 
   const itemsPerPage = 3
 
@@ -82,6 +101,61 @@ const RegisterClients = () => {
     handleClients()
   }
 
+  const downloadExcelTemplate = () => {
+    const headers = [
+      [
+        'Nome',
+        'CPF/CNPJ',
+        'Email',
+        'Celular',
+        'CEP',
+        'Endereço',
+        'Complemento',
+        'Bairro',
+        'Cidade',
+        'Estado',
+        'Número'
+      ]
+    ]
+
+    const ws = XLSX.utils.aoa_to_sheet(headers)
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Clientes')
+
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' })
+
+    saveAs(data, 'layout_clientes.xlsx')
+  }
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click()
+  }
+
+  const handleFileUpload = async event => {
+    if (!fileInputRef.current.files.length)
+      return toast.error('Importe um arquivo válido.')
+
+    const file = event.target.files[0]
+
+    setIsLoading(true)
+    try {
+      const result = await readExcelFile(file)
+      await clientsService.createManyClients({
+        json: result,
+        user: user.fullName
+      })
+      handleClients()
+      setIsLoading(false)
+    } catch (error) {
+      toast.error(
+        error.response.data.message || 'Ocorreu um erro ao cadastrar Cliente'
+      )
+      console.error(error)
+      setIsLoading(false)
+    }
+  }
+
   return (
     <>
       <DialogDeleteClient
@@ -122,16 +196,40 @@ const RegisterClients = () => {
             />
           </motion.div>
           <div className="flex justify-between items-center mb-4">
-            {/* Botão Cadastrar */}
-            <button
-              className="flex items-center bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800"
-              onClick={handleOpenDialogRegister}
-            >
-              <Plus size={18} className="mr-2" />
-              Cadastrar Cliente
-            </button>
+            <div className="flex items-center gap-4">
+              <Button
+                className={`${theme.button.success} flex items-center justify-center min-w-[200px]`}
+                onClick={handleOpenDialogRegister}
+                loading={isLoading}
+              >
+                <Plus size={18} className="mr-2" />
+                Cadastrar Cliente
+              </Button>
+              <Button
+                className={`${theme.button.blue} flex items-center justify-center min-w-[200px]`}
+                onClick={handleButtonClick}
+                loading={isLoading}
+              >
+                <FileUp size={18} className="mr-2" />
+                Importar Planilha
+              </Button>
+              <input
+                type="file"
+                accept=".xlsx"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+              />
+              <Button
+                className={`${theme.button.gray} flex items-center justify-center min-w-[200px]`}
+                onClick={downloadExcelTemplate}
+                loading={isLoading}
+              >
+                <Download size={18} className="mr-2" />
+                Baixar Layout
+              </Button>
+            </div>
 
-            {/* Campo de Pesquisa */}
             <div className="relative">
               <input
                 type="text"
@@ -146,6 +244,7 @@ const RegisterClients = () => {
               />
             </div>
           </div>
+
           <Table name="Cadastro de Produtos" headers={headers}>
             {currentData.length > 0 ? (
               currentData.map((item, index) => (

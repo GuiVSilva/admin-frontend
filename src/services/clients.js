@@ -20,5 +20,10 @@ export class ClientsSerivce {
     const response = await api.delete('/clients/delete-client', data)
     return response.data
   }
+
+  async createManyClients(data) {
+    const response = await api.post('/clients/create-many-clients', data)
+    return response.data
+  }
 }
 export const clientsService = new ClientsSerivce()
