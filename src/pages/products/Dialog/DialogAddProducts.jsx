@@ -7,6 +7,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { productsService } from '../../../services/products'
+import { useUser } from '@clerk/clerk-react'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
@@ -16,25 +18,38 @@ const validationSchema = Yup.object().shape({
   description: Yup.string().required('A descrição é obrigatória')
 })
 
+const formatCurrencyToDecimal = value => {
+  if (!value) return null
+  return parseFloat(value.replace(/[^\d,]/g, '').replace(',', '.'))
+}
+
 export const DialogAddProducts = ({
   openDialogRegister,
   handleCloseDialogRegister
 }) => {
   const [isLoading, setIsLoading] = useState(false)
+  const { user } = useUser()
+
   const handleSubmit = async values => {
     console.log('values', values)
-    toast.info('Processando, aguarde um momento!')
     setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    const isSuccess = true
-
-    if (isSuccess) {
-      toast.success('Produto cadastrado com sucesso!')
+    try {
+      await productsService.createProduct({
+        name: values.name,
+        mark: values.mark,
+        cost_price: formatCurrencyToDecimal(values.cost_price),
+        sale_price: formatCurrencyToDecimal(values.sale_price),
+        description: values.description,
+        user: user.fullName
+      })
+      toast.success('Produto cadastrado com sucesso')
       setIsLoading(false)
       handleCloseDialogRegister()
-    } else {
-      toast.error('Falha ao cadastrar produto!')
+    } catch (error) {
+      console.log(error)
+      toast.error(
+        error.response.data.message || 'Ocorreu um erro ao cadastrar Produto'
+      )
       setIsLoading(false)
     }
   }

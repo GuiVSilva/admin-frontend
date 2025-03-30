@@ -32,7 +32,7 @@ export const DialogEditClient = ({
 
   const handleSubmit = async values => {
     setIsLoading(true)
-    const newValues = { ...values, created_by: user.fullName }
+    const newValues = { id: line.id, ...values, created_by: user.fullName }
     try {
       await clientsService.updateClient(newValues)
       toast.success('Cliente atualizado com sucesso!')

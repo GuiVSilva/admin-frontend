@@ -8,7 +8,6 @@ import {
   Plus,
   Search,
   Trash2,
-  UserCheck,
   Users
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
@@ -185,15 +184,15 @@ const RegisterClients = () => {
             <StatCard
               name="Total de Clientes"
               icons={Users}
-              value="10"
+              value={`${clients.length}`}
               color="#6366f1"
             />
-            <StatCard
+            {/* <StatCard
               name="Clientes Ativos"
               icons={UserCheck}
               value="10"
               color="#f59e0b"
-            />
+            /> */}
           </motion.div>
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-4">

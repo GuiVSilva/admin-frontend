@@ -17,7 +17,7 @@ export class ClientsSerivce {
   }
 
   async deleteClient(data) {
-    const response = await api.delete('/clients/delete-client', data)
+    const response = await api.delete('/clients/delete-client', { data })
     return response.data
   }
 

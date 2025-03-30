@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 import { Typography } from '@material-tailwind/react'
 import theme from '../../../themes/global'
+import { productsService } from '../../../services/products'
 
 export const DialogDeleteProducts = ({
   openDialogDelete,
@@ -13,18 +14,19 @@ export const DialogDeleteProducts = ({
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async () => {
-    toast.info('Processando, aguarde um momento!')
     setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    console.log('id do produto', line.id)
-    const isSuccess = true
-
-    if (isSuccess) {
-      toast.success('Produto excluido com sucesso!')
+    try {
+      await productsService.deleteProduct({
+        id: line.id
+      })
+      toast.success('Produto excluído com sucesso')
       setIsLoading(false)
       handleCloseDialogDelete()
-    } else {
-      toast.error('Falha ao excluir produto!')
+    } catch (error) {
+      console.log(error)
+      toast.error(
+        error.response.data.message || 'Ocorreu um erro ao excluir Produto'
+      )
       setIsLoading(false)
     }
   }

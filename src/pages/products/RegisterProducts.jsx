@@ -12,11 +12,13 @@ import {
   Trash2
 } from 'lucide-react'
 import Table from '../../components/Table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Pagination from '../../components/Pagination'
 import { DialogAddProducts } from './Dialog/DialogAddProducts'
 import { DialogEditProducts } from './Dialog/DialogEditProducts'
 import { DialogDeleteProducts } from './Dialog/DialogDeleteProducts'
+import { productsService } from '../../services/products'
+import { formatCurrency } from '../../utils/formatCurrency'
 
 const headers = [
   { label: 'Nome do Produto', key: 'name' },
@@ -27,41 +29,6 @@ const headers = [
   { label: 'Ações', key: 'actions' }
 ]
 
-const data = [
-  {
-    id: 1,
-    name: 'Produto A',
-    mark: 'Marca 1',
-    description: 'Celular',
-    cost_price: 'R$ 1000,00',
-    sale_price: 'R$ 2000,00'
-  },
-  {
-    id: 2,
-    name: 'Produto B',
-    mark: 'Marca 2',
-    description: 'TV',
-    cost_price: 'R$ 1500,00',
-    sale_price: 'R$ 3000,00'
-  },
-  {
-    id: 3,
-    name: 'Produto C',
-    mark: 'Marca 3',
-    description: 'Fone',
-    cost_price: 'R$ 100,00',
-    sale_price: 'R$ 250,00'
-  },
-  {
-    id: 4,
-    name: 'Produto D',
-    mark: 'Marca 4',
-    description: 'Mouse',
-    cost_price: 'R$ 50,00',
-    sale_price: 'R$ 150,00'
-  }
-]
-
 const RegisterProducts = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -69,12 +36,27 @@ const RegisterProducts = () => {
   const [openDialogEdit, setOpenDialogEdit] = useState(false)
   const [openDialogDelete, setOpenDialogDelete] = useState(false)
   const [line, setLine] = useState([])
+  const [products, setProducts] = useState([])
+
+  const handleProducts = async () => {
+    try {
+      const data = await productsService.findProducts()
+      setProducts(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    handleProducts()
+  }, [])
 
   const itemsPerPage = 3
-  const filteredData = data?.filter(
+  const filteredData = products?.filter(
     item =>
       item?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item?.category?.toLowerCase().includes(searchTerm.toLowerCase())
+      item?.mark?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.description?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const currentData = filteredData.slice(
@@ -88,6 +70,7 @@ const RegisterProducts = () => {
 
   const handleCloseDialogRegister = () => {
     setOpenRegister(false)
+    handleProducts()
   }
 
   const handleOpenDialogEdit = item => {
@@ -97,6 +80,7 @@ const RegisterProducts = () => {
 
   const handleCloseDialogEdit = () => {
     setOpenDialogEdit(false)
+    handleProducts()
   }
 
   const handleOpenDialogDelete = item => {
@@ -106,6 +90,7 @@ const RegisterProducts = () => {
 
   const handleCloseDialogDelete = () => {
     setOpenDialogDelete(false)
+    handleProducts()
   }
   return (
     <>
@@ -127,7 +112,6 @@ const RegisterProducts = () => {
         <Header title="Cadastro de Produtos" />
 
         <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
-          {/* STATS */}
           <motion.div
             className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
             initial={{ opacity: 0, y: 20 }}
@@ -185,8 +169,8 @@ const RegisterProducts = () => {
             </div>
           </div>
           <Table name="Cadastro de Produtos" headers={headers}>
-            {currentData.length > 0 ? (
-              currentData.map((item, index) => (
+            {currentData?.length > 0 ? (
+              currentData?.map((item, index) => (
                 <motion.tr
                   key={index}
                   initial={{ opacity: 0 }}
@@ -203,10 +187,10 @@ const RegisterProducts = () => {
                     {item.description}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.cost_price}
+                    {formatCurrency(item.cost_price)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.sale_price}
+                    {formatCurrency(item.sale_price)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     <button
@@ -227,7 +211,7 @@ const RegisterProducts = () => {
             ) : (
               <tr>
                 <td
-                  colSpan={headers.length}
+                  colSpan={headers?.length}
                   className="text-center text-gray-500 py-4"
                 >
                   Nenhum resultado encontrado.

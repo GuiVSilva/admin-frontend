@@ -15,14 +15,16 @@ export const DialogDeleteClient = ({
 
   const handleSubmit = async () => {
     setIsLoading(true)
+    console.log('line.id', line.id)
     try {
       await clientsService.deleteClient({ id: line.id })
       toast.success('Cliente excluido com sucesso!')
       setIsLoading(false)
       handleCloseDialogDelete()
     } catch (error) {
-      console.error(error)
-      toast.error('Falha ao excluir cliente!')
+      toast.error(
+        error.response.data.message || 'Ocorreu um erro ao cadastrar Cliente'
+      )
       setIsLoading(false)
     }
   }

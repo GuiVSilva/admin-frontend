@@ -5,6 +5,8 @@ import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import { Typography } from '@material-tailwind/react'
 import theme from '../../../themes/global'
+import { productsService } from '../../../services/products'
+import { formatCurrency } from '../../../utils/formatCurrency'
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
@@ -13,6 +15,11 @@ const validationSchema = Yup.object().shape({
   sale_price: Yup.string().required('O valor de venda é obrigatório'),
   description: Yup.string().required('A descrição é obrigatória')
 })
+
+const formatCurrencyToDecimal = value => {
+  if (!value) return null
+  return parseFloat(value.replace(/[^\d,]/g, '').replace(',', '.'))
+}
 
 export const DialogEditProducts = ({
   openDialogEdit,
@@ -23,32 +30,38 @@ export const DialogEditProducts = ({
 
   const handleSubmit = async values => {
     console.log('values', values)
-    toast.info('Processando, aguarde um momento!')
     setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    const isSuccess = true
-
-    if (isSuccess) {
-      toast.success('Produto atualizado com sucesso!')
+    try {
+      await productsService.updateProduct({
+        id: line.id,
+        name: values.name,
+        mark: values.mark,
+        cost_price: formatCurrencyToDecimal(values.cost_price),
+        sale_price: formatCurrencyToDecimal(values.sale_price),
+        description: values.description
+      })
+      toast.success('Produto atualizado com sucesso')
       setIsLoading(false)
       handleCloseDialogEdit()
-    } else {
-      toast.error('Falha ao atualizar produto!')
+    } catch (error) {
+      console.log(error)
+      toast.error(
+        error.response.data.message || 'Ocorreu um erro ao atualizar Produto'
+      )
       setIsLoading(false)
     }
   }
-
+  console.log('line', line)
   return (
     <Dialog size="sm" open={openDialogEdit} onClose={handleCloseDialogEdit}>
       <Dialog.Title>Editar Produto</Dialog.Title>
       <Formik
         initialValues={{
-          name: line.name,
-          mark: line.mark,
-          description: line.description,
-          cost_price: line.cost_price,
-          sale_price: line.sale_price
+          name: line?.name,
+          mark: line?.mark,
+          description: line?.description,
+          cost_price: formatCurrency(line?.cost_price),
+          sale_price: formatCurrency(line?.sale_price)
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
