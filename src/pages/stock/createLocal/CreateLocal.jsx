@@ -1,93 +1,76 @@
-// import React from "react";
+import { useEffect, useState } from 'react'
+import Header from '../../../components/Header'
+import Table from '../../../components/Table'
+import { motion } from 'framer-motion'
+import { Edit, Plus, Search, Trash2 } from 'lucide-react'
+import Pagination from '../../../components/Pagination'
+import { DialogCreateLocal } from './Dialog/DialogCreateLocal'
+import { DialogEditLocal } from './Dialog/DIalogEditLocal'
+import { DialogDeleteLocal } from './Dialog/DialogDeleteLocal'
+import { stockService } from '../../../services/stock'
 
-import { useState } from "react";
-import Header from "../../../components/Header";
-// import StatCard from "../../../components/StatCard";
-import Table from "../../../components/Table";
-import { motion } from "framer-motion";
-import {
-  // AlertTriangle,
-  // DollarSign,
-  Edit,
-  // Package,
-  Plus,
-  // Scale,
-  Search,
-  Trash2,
-} from "lucide-react";
-import Pagination from "../../../components/Pagination";
-import { DialogCreateLocal } from "./Dialog/DialogCreateLocal";
-import { DialogEditLocal } from "./Dialog/DIalogEditLocal";
-import { DialogDeleteLocal } from "./Dialog/DialogDeleteLocal";
-
-const headers = [
-  { label: "Descrição", key: "description" },
-  { label: "Ações", key: "actions" },
-];
-
-const data = [
-  {
-    id: 1,
-    name: "Local A",
-  },
-  {
-    id: 2,
-    name: "Local B",
-  },
-  {
-    id: 3,
-    name: "Local C",
-  },
-  {
-    id: 4,
-    name: "Local D",
-  },
-];
+const headers = [{ label: 'Descrição' }, { label: 'Ações' }]
 
 const CreateLocal = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [openDialogRegister, setOpenDialogRegister] = useState(false);
-  const [openDialogEdit, setOpenDialogEdit] = useState(false);
-  const [openDialogDelete, setOpenDialogDelete] = useState(false);
-  const [line, setLine] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [openDialogRegister, setOpenDialogRegister] = useState(false)
+  const [openDialogEdit, setOpenDialogEdit] = useState(false)
+  const [openDialogDelete, setOpenDialogDelete] = useState(false)
+  const [line, setLine] = useState(null)
+  const [locations, setLocations] = useState([])
 
-  const itemsPerPage = 3;
-  const filteredData = data?.filter(
-    (item) =>
-      item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleLocations = async () => {
+    try {
+      const response = await stockService.findLocations()
+      setLocations(response)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    handleLocations()
+  }, [])
+
+  const itemsPerPage = 3
+  const filteredData = locations?.filter(item =>
+    item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
+  )
 
   const handleOpenDialogRegister = () => {
-    setOpenDialogRegister(true);
-  };
+    setOpenDialogRegister(true)
+  }
 
   const handleCloseDialogRegister = () => {
-    setOpenDialogRegister(false);
-  };
+    setOpenDialogRegister(false)
+    handleLocations()
+  }
 
-  const handleOpenDialogEdit = (item) => {
-    setLine(item);
-    setOpenDialogEdit(true);
-  };
+  const handleOpenDialogEdit = item => {
+    setLine(item)
+    setOpenDialogEdit(true)
+  }
 
   const handleCloseDialogEdit = () => {
-    setOpenDialogEdit(false);
-  };
+    setOpenDialogEdit(false)
+    handleLocations()
+  }
 
-  const handleOpenDialogDelete = (item) => {
-    setLine(item);
-    setOpenDialogDelete(true);
-  };
+  const handleOpenDialogDelete = item => {
+    setLine(item)
+    setOpenDialogDelete(true)
+  }
 
   const handleCloseDialogDelete = () => {
-    setOpenDialogDelete(false);
-  };
+    setOpenDialogDelete(false)
+    handleLocations()
+  }
 
   return (
     <>
@@ -158,7 +141,7 @@ const CreateLocal = () => {
                 placeholder="Pesquisar"
                 className="bg-gray-700 text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
               <Search
                 className="absolute left-3 top-2.5 text-gray-400"
@@ -198,7 +181,7 @@ const CreateLocal = () => {
             ) : (
               <tr>
                 <td
-                  colSpan={headers.length}
+                  colSpan={headers?.length}
                   className="text-center text-gray-500 py-4"
                 >
                   Nenhum resultado encontrado.
@@ -215,6 +198,6 @@ const CreateLocal = () => {
         </main>
       </div>
     </>
-  );
-};
-export default CreateLocal;
+  )
+}
+export default CreateLocal

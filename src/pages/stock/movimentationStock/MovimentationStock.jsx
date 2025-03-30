@@ -1,5 +1,5 @@
 // import Table from "../../../components/Table";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 import {
   AlertTriangle,
   Package,
@@ -7,78 +7,72 @@ import {
   LayoutPanelTop,
   Plus,
   ArrowRightLeft,
-  Search,
-} from "lucide-react";
-import theme from "../../../themes/global";
-import DialogMovimentation from "./Dialogs/DialogMovimentation";
-import { useState } from "react";
-import DialogRegisterMinStock from "./Dialogs/DialogRegisterMinStock";
-import { Pagination, Table, Header, StatCard, Button } from "@/components";
+  Search
+} from 'lucide-react'
+import theme from '../../../themes/global'
+import DialogMovimentation from './Dialogs/DialogMovimentation'
+import { useEffect, useState } from 'react'
+import DialogRegisterMinStock from './Dialogs/DialogRegisterMinStock'
+import { Pagination, Table, Header, StatCard, Button } from '@/components'
+import { stockService } from '../../../services/stock'
 
 const headers = [
-  { label: "Descrição", key: "description" },
-  { label: "Produto", key: "view" },
-  { label: "Quantidade", key: "quantity" },
-];
-
-const data = [
-  {
-    id: 1,
-    name: "Local A",
-    product: "Produto A",
-    quantity: 10,
-  },
-  {
-    id: 2,
-    name: "Local B",
-    product: "Produto A",
-    quantity: 10,
-  },
-  {
-    id: 3,
-    name: "Local C",
-    product: "Produto A",
-    quantity: 10,
-  },
-  {
-    id: 4,
-    name: "Local D",
-    product: "Produto A",
-    quantity: 10,
-  },
-];
+  { label: 'Local' },
+  { label: 'Produto' },
+  { label: 'Quantidade' }
+]
 
 const MovimentationStock = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [openDialogMovimentation, setOpenDialogMovimentation] = useState(false);
-  const [openDialogMinStock, setOpenDialogMinStock] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [openDialogMovimentation, setOpenDialogMovimentation] = useState(false)
+  const [openDialogMinStock, setOpenDialogMinStock] = useState(false)
+  const [moviments, setMoviments] = useState([])
 
-  const itemsPerPage = 3;
-  const filteredData = data?.filter((item) =>
-    item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleMoviments = async () => {
+    try {
+      const response = await stockService.findMoviments()
+      setMoviments(response)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    handleMoviments()
+  }, [])
+
+  const itemsPerPage = 3
+  const filteredData = moviments?.filter(item => {
+    const search = searchTerm.toLowerCase()
+
+    return (
+      item?.locations?.name?.toLowerCase().includes(search) ||
+      item?.product?.name?.toLowerCase().includes(search)
+    )
+  })
 
   const currentData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
+  )
 
   const handleOpenDialogMovimentation = () => {
-    setOpenDialogMovimentation(true);
-  };
+    setOpenDialogMovimentation(true)
+  }
 
   const handleCloseDialogMovimentation = () => {
-    setOpenDialogMovimentation(false);
-  };
+    setOpenDialogMovimentation(false)
+    handleMoviments()
+  }
 
   const handleOpenDialogMinStock = () => {
-    setOpenDialogMinStock(true);
-  };
+    setOpenDialogMinStock(true)
+  }
 
   const handleCloseDialogMinStock = () => {
-    setOpenDialogMinStock(false);
-  };
+    setOpenDialogMinStock(false)
+  }
 
   return (
     <>
@@ -155,7 +149,7 @@ const MovimentationStock = () => {
                 placeholder="Pesquisar"
                 className="bg-gray-700 text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
               <Search
                 className="absolute left-3 top-2.5 text-gray-400"
@@ -164,7 +158,7 @@ const MovimentationStock = () => {
             </div>
           </div>
 
-          <Table name="Últimas alocações" headers={headers}>
+          <Table name="Em Estoque" headers={headers}>
             {currentData.length > 0 ? (
               currentData.map((item, index) => (
                 <motion.tr
@@ -174,10 +168,10 @@ const MovimentationStock = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.name}
+                    {item.locations.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                    {item.product}
+                    {item.product.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                     {item.quantity}
@@ -204,6 +198,6 @@ const MovimentationStock = () => {
         </main>
       </div>
     </>
-  );
-};
-export default MovimentationStock;
+  )
+}
+export default MovimentationStock
